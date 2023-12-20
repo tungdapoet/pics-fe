@@ -1,36 +1,142 @@
+import {useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 // @mui
-import { Container, Typography } from '@mui/material';
+import {
+    Box,
+    Tab,
+    Card,
+    Grid,
+    Divider,
+    Container,
+    Typography,
+    CardMedia,
+    CardContent,
+    Avatar,
+    Button, TextField
+} from '@mui/material';
+// redux
+import {useDispatch, useSelector} from '../../../redux/store';
+import {getImage} from '../../../redux/slices/image';
+// routes
 // hooks
-import useSettings from "../../../hooks/useSettings";
+import useSettings from '../../../hooks/useSettings';
 // components
-import Page from "../../../components/Page";
+import Page from '../../../components/Page';
+import {SkeletonProduct} from '../../../components/skeleton';
 
+import CartWidget from '../../../sections/@dashboard/e-commerce/CartWidget';
+import ProductDetailsReviewList from "../../../sections/@dashboard/e-commerce/product-details/ProductDetailsReviewList";
+import ImageCommentList from "../../../sections/@dashboard/image/ImageCommentList";
+import Iconify from "../../../components/Iconify";
+import {fShortenNumber} from "../../../utils/formatNumber";
 
 // ----------------------------------------------------------------------
 
 export default function Home() {
-    const { themeStretch } = useSettings();
+    const {themeStretch} = useSettings();
+    const dispatch = useDispatch();
+    const {name = ''} = useParams();
+    const {image, error} = useSelector((state) => state.image);
+
+    useEffect(() => {
+        dispatch(getImage(name));
+        console.log(image)
+    }, [dispatch, name]);
+
 
     return (
-        <Page title="Home">
-            <Container maxWidth={themeStretch ? false : 'xl'}>
-                <Typography variant="h3" component="h1" paragraph>
-                    Page Template
-                </Typography>
-                <Typography gutterBottom>
-                    Curabitur turpis. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc, vitae euismod
-                    ligula urna in dolor. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Phasellus blandit leo
-                    ut odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id
-                    purus. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. In consectetuer turpis ut velit.
-                    Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.
-                    Vestibulum suscipit nulla quis orci. Nam commodo suscipit quam. Sed a libero.
-                </Typography>
-                <Typography>
-                    Praesent ac sem eget est egestas volutpat. Phasellus viverra nulla ut metus varius laoreet. Curabitur
-                    ullamcorper ultricies nisi. Ut non enim eleifend felis pretium feugiat. Donec mi odio, faucibus at,
-                    scelerisque quis, convallis in, nisi. Fusce vel dui. Quisque libero metus, condimentum nec, tempor a, commodo
-                    mollis, magna. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Cras dapibus.
-                </Typography>
+        <Page title="Image Details">
+            <Container maxWidth={themeStretch ? false : 'lg'}>
+
+                <CartWidget/>
+
+                {image && (
+                    <>
+                        <Card>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <CardMedia component="img" image={image.src} alt="Image"/>
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <CardContent
+                                        style={{
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between'
+                                        }}
+                                    >
+                                        <div>
+                                            <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
+                                                <Grid item style={{display: 'flex', alignItems: 'center'}}>
+                                                    <Avatar sx={{mr: 2}} src={image.user.avatar} alt="Avatar"/>
+                                                    <div>
+                                                        <Typography variant="h6">{image.user.name}</Typography>
+                                                        <Typography
+                                                            variant="body2">{image.user.followers} followers
+                                                        </Typography>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Button variant="contained" color="primary">
+                                                        Follow
+                                                    </Button>
+                                                    <Button
+                                                        size="small"
+                                                        color="inherit"
+                                                        startIcon={<Iconify icon='uiw:more' />}
+                                                    />
+                                                </Grid>
+
+                                            </Grid>
+
+                                            <Typography sx={{mt: 5}} variant="h4">
+                                                {image.title}
+                                            </Typography>
+
+                                            <Typography sx={{mt: 2}}>
+                                                {image.description}
+                                            </Typography>
+
+                                            <Typography sx={{mt: 5}} variant="h4">
+                                                Comments
+                                            </Typography>
+
+                                            <ImageCommentList image={image}/>
+                                        </div>
+
+                                        <div>
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Typography variant="h6">
+                                                    {image.comments.length} comments
+                                                </Typography>
+                                                <Button
+                                                    size="small"
+                                                    color="inherit"
+                                                    startIcon={<Iconify icon='icon-park-solid:like' />}
+                                                >
+                                                    {image.like}
+                                                </Button>
+
+                                            </div>
+                                            <TextField
+                                                variant="outlined"
+                                                label="Write your comment"
+                                                fullWidth
+                                                margin="normal"
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </Grid>
+                            </Grid>
+                        </Card>
+                    </>
+                )}
+
+                {!image && <SkeletonProduct/>}
+
+                {error && <Typography variant="h6">Image not found</Typography>}
             </Container>
         </Page>
     );

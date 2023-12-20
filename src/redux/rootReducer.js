@@ -7,6 +7,7 @@ import chatReducer from './slices/chat';
 import productReducer from './slices/product';
 import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
+import imageReducer from './slices/image'
 
 // ----------------------------------------------------------------------
 
@@ -24,12 +25,20 @@ const productPersistConfig = {
   whitelist: ['sortBy', 'checkout'],
 };
 
+const imagePersistConfig = {
+  key: 'image',
+  storage,
+  keyPrefix: 'redux-',
+  whitelist: ['sortBy', 'name'],
+};
+
 const rootReducer = combineReducers({
   mail: mailReducer,
   chat: chatReducer,
   calendar: calendarReducer,
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
+  image: persistReducer(imagePersistConfig, imageReducer),
 });
 
 export { rootPersistConfig, rootReducer };
