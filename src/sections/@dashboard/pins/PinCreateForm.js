@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // form
@@ -40,8 +40,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-export default function PinCreateForm() {
+export default function PinCreateForm(){
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -50,9 +49,6 @@ export default function PinCreateForm() {
         console.log("Back to Pic Page")
     };
 
-    const handleClosePreview = () => {
-        setOpen(false);
-    };
 
     const NewBlogSchema = Yup.object().shape({
         title: Yup.string().required('Title is required'),
@@ -94,7 +90,6 @@ export default function PinCreateForm() {
         try {
             await new Promise((resolve) => setTimeout(resolve, 500));
             reset();
-            handleClosePreview();
             enqueueSnackbar('Post success!');
             navigate(PATH_DASHBOARD.blog.posts);
         } catch (error) {
@@ -122,9 +117,6 @@ export default function PinCreateForm() {
     return (
         <>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-
-                </Box>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={8}>
                         <Card sx={{ p: 3 }}>
