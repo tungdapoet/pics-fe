@@ -23,14 +23,17 @@ export default function Home() {
     const {user} = useAuth();
 
     const UpdateUserSchema = Yup.object().shape({
-        displayName: Yup.string().required('Name is required'),
+        firstName: Yup.string().required('First name is required'),
+        lastName: Yup.string().required('Last name is required'),
+        userName: Yup.string().required('User name is required'),
+        email: Yup.string().required('email is required'),
     });
 
     const profileDefaultValues = {
         photoURL: user?.photoURL || '',
         firstName: user?.firstName || '',
         lastName: user?.lastName || '',
-        username: user?.username || '',
+        userName: user?.userName || '',
         email: user?.email || '',
         title: user?.title || '',
     };
@@ -109,7 +112,7 @@ export default function Home() {
         <>
             <FormProvider methods={profileMethods} onSubmit={handleProfileSubmit(onSubmitUserInfo)}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={4} style={{ alignItems: 'stretch' }}>
+                    <Grid item xs={12} md={4}>
                         <Card sx={{py: 10, px: 3, textAlign: 'center'}}>
                             <RHFUploadAvatar
                                 name="photoURL"
@@ -135,10 +138,9 @@ export default function Home() {
                         </Card>
                     </Grid>
 
-                    <Grid item xs={12} md={8} style={{ alignItems: 'stretch' }}>
-                        <Card sx={{p: 3}}>
+                    <Grid item xs={12} md={8}>
+                        <Card style={{height: '100%'}} sx={{p: 3}}>
                             <Box
-                                style={{height: '100%'}}
                                 sx={{
                                     display: 'grid',
                                     rowGap: 3,
