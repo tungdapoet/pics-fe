@@ -14,6 +14,7 @@ import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 // sections
 import { RegisterForm } from '../../sections/auth/register';
+import LogoFull from "../../components/LogoFull";
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +72,7 @@ export default function Register() {
     <Page title="Register">
       <RootStyle>
         <HeaderStyle>
-          <Logo />
+          <LogoFull />
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Already have an account?{' '}
@@ -106,17 +107,8 @@ export default function Register() {
                 <Typography variant="h4" gutterBottom>
                   Get started now.
                 </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Free forever. No credit card needed.</Typography>
+                <Typography sx={{ color: 'text.secondary' }}>Lets create and share your pics!</Typography>
               </Box>
-              <Tooltip title={capitalCase(method)}>
-                <>
-                  <Image
-                    disabledEffect
-                    src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                </>
-              </Tooltip>
             </Box>
 
             <RegisterForm />
