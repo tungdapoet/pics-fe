@@ -1,5 +1,5 @@
-import {useParams} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {NavLink as RouterLink, useParams} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 // @mui
 import {
     Box,
@@ -22,13 +22,9 @@ import {getImage} from '../../../redux/slices/image';
 import useSettings from '../../../hooks/useSettings';
 // components
 import Page from '../../../components/Page';
-import {SkeletonProduct} from '../../../components/skeleton';
-
-import CartWidget from '../../../sections/@dashboard/e-commerce/CartWidget';
-import ProductDetailsReviewList from "../../../sections/@dashboard/e-commerce/product-details/ProductDetailsReviewList";
 import ImageCommentList from "../../../sections/@dashboard/image/ImageCommentList";
 import Iconify from "../../../components/Iconify";
-import {fShortenNumber} from "../../../utils/formatNumber";
+import {PageNotFoundIllustration} from "../../../assets";
 
 // ----------------------------------------------------------------------
 
@@ -47,10 +43,7 @@ export default function Home() {
     return (
         <Page title="Image Details">
             <Container maxWidth={themeStretch ? false : 'lg'}>
-
-                <CartWidget/>
-
-                {image && (
+                {image ? (
                     <>
                         <Card>
                             <Grid container>
@@ -132,11 +125,21 @@ export default function Home() {
                             </Grid>
                         </Card>
                     </>
+                ): (
+                    <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
+                        <Typography variant="h3" paragraph>
+                            Pic Not Found.
+                        </Typography>
+
+                        <Typography sx={{ color: 'text.secondary' }}>This Pic might be deleted</Typography>
+
+                        <PageNotFoundIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
+
+                        <Button to="/" size="large" variant="contained" component={RouterLink}>
+                            Go to Home
+                        </Button>
+                    </Box>
                 )}
-
-                {!image && <SkeletonProduct/>}
-
-                {error && <Typography variant="h6">Image not found</Typography>}
             </Container>
         </Page>
     );

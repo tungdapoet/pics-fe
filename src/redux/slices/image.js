@@ -123,7 +123,7 @@ export function getImage(name) {
             // });
             const response = {
                 data: {
-                    image: initialState.image
+                    image: null
                 }
             }
             dispatch(slice.actions.getImageSuccess(response.data.image));

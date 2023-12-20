@@ -8,7 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
-import {Grid, Card, Chip, Stack, Button, TextField, Typography, Autocomplete, Box} from '@mui/material';
+import {Grid, Card, Chip, Stack, Button, TextField, Typography, Autocomplete} from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
@@ -45,9 +45,6 @@ export default function PinCreateForm(){
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const handleOpenPreview = () => {
-        console.log("Back to Pic Page")
-    };
 
 
     const NewBlogSchema = Yup.object().shape({

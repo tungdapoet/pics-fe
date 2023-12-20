@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import { Container, Typography, Avatar, Grid, Button, Card, CardContent, Box, Paper } from '@mui/material';
-import Masonry from '@mui/lab/Masonry';
+import { Container, Typography, Avatar, Grid, Button, Card, Box, Paper } from '@mui/material';
+import { NavLink as RouterLink } from 'react-router-dom';
 import Page from "../../../components/Page";
 import useSettings from "../../../hooks/useSettings";
 import MasonryGallery from "../../../components/MasonryGallery";
+import {UploadIllustration} from "../../../assets";
 
 // ----------------------------------------------------------------------
 
@@ -85,10 +86,26 @@ export default function UserProfile() {
                             <Button variant="outlined">Message</Button>
                         </Box>
                     </Box>
-
-                    {/* Masonry Image Grid */}
-                    <MasonryGallery items={items}/>
                 </Paper>
+                {!items.length ?
+                    (
+                        <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
+                            <Typography variant="h3" paragraph>
+                                No Pics found.
+                            </Typography>
+
+                            <Typography sx={{ color: 'text.secondary' }}>Start Creating Pics</Typography>
+
+                            <UploadIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
+
+                            <Button to="/" size="large" variant="contained" component={RouterLink}>
+                                Go to Home
+                            </Button>
+                        </Box>
+                    ) : (
+                        <MasonryGallery items={items}/>
+                    )
+                }
             </Container>
         </Page>
     );

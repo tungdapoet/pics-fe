@@ -1,7 +1,15 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import {Avatar, Card, CardContent, CardMedia, Stack, Typography} from '@mui/material';
+import PropTypes from "prop-types";
+import createAvatar from "../utils/createAvatar";
 
-const Pin = ({ title, author, image }) => {
+Pin.propTypes = {
+    title: PropTypes.string,
+    author: PropTypes.string,
+    image: PropTypes.any
+};
+
+export default function Pin({ title, author, image }) {
 
     const handleClick = () => {
         console.log('hello');
@@ -14,21 +22,34 @@ const Pin = ({ title, author, image }) => {
                 image={image}
                 alt={title}
                 sx={{
-                    width: '100%', // Take the full width of the card
-                    height: 'auto', // Adjust height automatically to maintain aspect ratio
-                    objectFit: 'contain' // Prevent stretching, might add letterboxing
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'contain'
                 }}
             />
-            <CardContent sx={{ textAlign: 'center' }}>
+            <CardContent sx={{ textAlign: 'left' }}>
                 <Typography gutterBottom variant="h5" component="div">
                     {title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {author}
+                <Typography gutterBottom variant="p" component="div">
+                    {title}
                 </Typography>
+
+                <Stack direction="row" alignItems="center" spacing={2}>
+                    <Avatar
+                        src={author?.photoURL}
+                        alt={author?.displayName}
+                        color={author?.photoURL ? 'default' : createAvatar(author?.displayName).color}
+                    >
+                        {createAvatar(author?.displayName).name}
+                    </Avatar>
+                    <Typography variant="body2" color="text.secondary">
+                        {author}
+                    </Typography>
+                </Stack>
             </CardContent>
         </Card>
     );
 };
 
-export default Pin;
+
