@@ -5,6 +5,8 @@ import Page from "../../../components/Page";
 import useSettings from "../../../hooks/useSettings";
 import MasonryGallery from "../../../components/MasonryGallery";
 import {UploadIllustration} from "../../../assets";
+import UserReportForm from "../../../sections/@dashboard/user/UserReportForm";
+import {DialogAnimate} from "../../../components/animate";
 
 // ----------------------------------------------------------------------
 
@@ -19,10 +21,19 @@ const StatCard = ({ number, label }) => (
 export default function UserProfile() {
     const { themeStretch } = useSettings();
     const [isFollowing, setIsFollowing] = useState(false);
+    const [isOpenReportForm, setIsOpenReportForm] = useState(false);
 
     const handleFollowClick = () => {
         setIsFollowing(!isFollowing);
     };
+
+    const handleSubmitReport = () => {
+        setIsOpenReportForm(false)
+    }
+
+    const handleOpenReportForm = () => {
+        setIsOpenReportForm(true)
+    }
 
     const items = [
         {
@@ -83,7 +94,7 @@ export default function UserProfile() {
                             >
                                 {isFollowing ? 'Following' : 'Follow'}
                             </Button>
-                            <Button variant="outlined" color="error">Report</Button>
+                            <Button onClick={handleOpenReportForm} variant="outlined" color="error">Report</Button>
                         </Box>
                     </Box>
                 </Paper>
@@ -107,6 +118,9 @@ export default function UserProfile() {
                     )
                 }
             </Container>
+            <DialogAnimate open={isOpenReportForm} title="Report User">
+                <UserReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
+            </DialogAnimate>
         </Page>
     );
 }

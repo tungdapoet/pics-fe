@@ -73,38 +73,52 @@ export default function PinReportForm({id, onClose, callback}){
     return (
         <>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-                <Card sx={{ p: 3 }}>
+                    <Card sx={{ p: 3 }}>
                     <Grid container spacing={1} sx={{pt: 2}}>
                         <Grid item xs={12}>
-                            <Typography sx={{fontWeight: 600, fontSize: 20}}>REPORT PIN</Typography>
+                            <Typography variant="h5">REPORT PIN</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isSpam" label="Spam"/>
-                            <Typography>Misleading or Repetitive</Typography>
+                            <RHFCheckbox name="isSpam"
+                                         label={<Typography variant="h6">Spam</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Misleading or Repetitive</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isSexualized" label="Sexualized Content"/>
-                            <Typography>Sexualized explicit content involving adults or nudity, non-nudity or intentional missuse involving minors</Typography>
+                            <RHFCheckbox name="isSexualized"
+                                         label={<Typography variant="h6">Sexualized Content</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Sexualized explicit content involving adults or nudity, non-nudity or intentional missuse involving minors</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isSelfHarm" label="Self-Harm"/>
-                            <Typography>Self-harm or Suicide</Typography>
+                            <RHFCheckbox name="isSelfHarm"
+                                         label={<Typography variant="h6">Self-Harm</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Self-harm or Suicide</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isDangerous" label="Dangerous Content"/>
-                            <Typography>Drugs, Weapons, Regulated Products</Typography>
+                            <RHFCheckbox name="isDangerous"
+                                         label={<Typography variant="h6">Dangerous Content</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Drugs, Weapons, Regulated Products</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isHarassment" label="Harrasment or Criticism"/>
-                            <Typography>Insults, Threats, non-consensual content</Typography>
+                            <RHFCheckbox name="isHarassment"
+                                         label={<Typography variant="h6">Harrasment or Criticism</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Insults, Threats, non-consensual content</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isPrivacy" label="Privacy Violation"/>
-                            <Typography>Personal Information included</Typography>
+                            <RHFCheckbox name="isPrivacy"
+                                         label={<Typography variant="h6">Privacy Violation</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Personal Information included</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <RHFCheckbox sx={{fontWeight: 600, fontSize: 20}} name="isIntellectual" label="Intellectual Property"/>
-                            <Typography>Copyright or Trademark infringement</Typography>
+                            <RHFCheckbox name="isIntellectual"
+                                         label={<Typography variant="h6">Intellectual Property</Typography>}
+                            />
+                            <Typography variant="body2" sx={{ml: 4}}>Copyright or Trademark infringement</Typography>
                         </Grid>
                     </Grid>
                     <Stack spacing={3}>
@@ -118,6 +132,7 @@ export default function PinReportForm({id, onClose, callback}){
                         </Stack>
                     </Stack>
                 </Card>
+
             </FormProvider>
         </>
     );

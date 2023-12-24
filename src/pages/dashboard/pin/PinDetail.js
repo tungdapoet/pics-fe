@@ -146,9 +146,10 @@ export default function PinDetail() {
                     </Box>
                 )}
             </Container>
-            <DialogAnimate open={isOpenReportForm} title="Report Pin"
-                           children={<PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>}
-            />
+            <DialogAnimate open={isOpenReportForm} title="Report Pin">
+                    <PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
+            </DialogAnimate>
+
         </Page>
     );
 }
