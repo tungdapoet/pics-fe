@@ -83,7 +83,7 @@ export default function UserProfile() {
                             >
                                 {isFollowing ? 'Following' : 'Follow'}
                             </Button>
-                            <Button variant="outlined">Message</Button>
+                            <Button variant="outlined" color="error">Report</Button>
                         </Box>
                     </Box>
                 </Paper>

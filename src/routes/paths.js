@@ -44,6 +44,7 @@ export const PATH_DASHBOARD = {
     profile: {
       root: path(ROOTS_DASHBOARD, '/profile'),
       detail: path(ROOTS_DASHBOARD, '/profile/detail'),
+      user: path(ROOTS_DASHBOARD, '/profile/user'),
       edit: path(ROOTS_DASHBOARD, '/profile/edit'),
     },
     settings: path(ROOTS_DASHBOARD, '/settings'),

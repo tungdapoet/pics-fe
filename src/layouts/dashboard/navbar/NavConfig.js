@@ -47,6 +47,7 @@ const navConfig = [
         icon: ICONS.ecommerce,
         children: [
           { title: 'details', path: PATH_DASHBOARD.general.profile.detail, icon: ICONS.dashboard },
+          { title: 'User', path: PATH_DASHBOARD.general.profile.user, icon: ICONS.dashboard },
           { title: 'edit', path: PATH_DASHBOARD.general.profile.edit, icon: ICONS.ecommerce },
         ]
       },

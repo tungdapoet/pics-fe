@@ -10,7 +10,7 @@ import {
     CardMedia,
     CardContent,
     Avatar,
-    Button, TextField
+    Button, TextField, IconButton, MenuItem, Divider
 } from '@mui/material';
 // redux
 import {useDispatch, useSelector} from '../../../redux/store';
@@ -22,15 +22,27 @@ import useSettings from '../../../hooks/useSettings';
 import Page from '../../../components/Page';
 import PinCommentList from "../../../sections/@dashboard/pins/PinCommentList";
 import Iconify from "../../../components/Iconify";
-import {PageNotFoundIllustration} from "../../../assets";
+import { PageNotFoundIllustration } from "../../../assets";
+import MenuPopover from "../../../components/MenuPopover";
+import PinReportForm from "../../../sections/@dashboard/pins/PinReportForm";
+import {DialogAnimate} from "../../../components/animate";
 
 // ----------------------------------------------------------------------
 
-export default function Home() {
+export default function PinDetail() {
     const {themeStretch} = useSettings();
     const dispatch = useDispatch();
     const {name = ''} = useParams();
     const {pin, error} = useSelector((state) => state.pin);
+    const [isOpenReportForm, setIsOpenReportForm] = useState(false);
+
+    const handleSubmitReport = () => {
+        setIsOpenReportForm(false)
+    }
+
+    const handleOpenReportForm = () => {
+        setIsOpenReportForm(true)
+    }
 
     useEffect(() => {
         dispatch(getPin(name));
@@ -72,11 +84,7 @@ export default function Home() {
                                                     <Button variant="contained" color="primary">
                                                         Follow
                                                     </Button>
-                                                    <Button
-                                                        size="small"
-                                                        color="inherit"
-                                                        startIcon={<Iconify icon='uiw:more' />}
-                                                    />
+                                                    <MoreMenuButton handleClickReport={handleOpenReportForm}/>
                                                 </Grid>
 
                                             </Grid>
@@ -138,6 +146,56 @@ export default function Home() {
                     </Box>
                 )}
             </Container>
+            <DialogAnimate open={isOpenReportForm} title="Report Pin"
+                           children={<PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>}
+            />
         </Page>
+    );
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+function MoreMenuButton({handleClickReport}) {
+    const [open, setOpen] = useState(null);
+
+    const handleOpen = (event) => {
+        setOpen(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setOpen(null);
+    };
+
+    const ICON = {
+        mr: 2,
+        width: 20,
+        height: 20,
+    };
+
+    return (
+        <>
+            <IconButton size="large" onClick={handleOpen}>
+                <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+            </IconButton>
+
+            <MenuPopover
+                open={Boolean(open)}
+                anchorEl={open}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                arrow="right-top"
+                sx={{
+                    mt: -0.5,
+                    width: 'auto',
+                    '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
+                }}
+            >
+                <MenuItem sx={{ color: 'error.main' }} onClick={handleClickReport}>
+                    <Iconify icon={'ic:round-report'} sx={{ ...ICON }} />
+                    Report
+                </MenuItem>
+            </MenuPopover>
+        </>
     );
 }

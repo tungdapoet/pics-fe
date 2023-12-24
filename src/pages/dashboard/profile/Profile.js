@@ -20,31 +20,31 @@ export default function UserProfile() {
     const { themeStretch } = useSettings();
 
     const items = [
-        {
-            title: 'Image Title 1',
-            author: 'Author Name 1',
-            image: 'https://picsum.photos/720/1080',
-        },
-        {
-            title: 'Image Title 2',
-            author: 'Author Name 2',
-            image: 'https://picsum.photos/1080/1920',
-        },
-        {
-            title: 'Image Title 3',
-            author: 'Author Name 3',
-            image: 'https://picsum.photos/1440/2560',
-        },
-        {
-            title: 'Image Title 4',
-            author: 'Author Name 4',
-            image: 'https://picsum.photos/1080/1920',
-        },
-        {
-            title: 'Image Title 5',
-            author: 'Author Name 5',
-            image: 'https://picsum.photos/1080/1920',
-        },
+        // {
+        //     title: 'Image Title 1',
+        //     author: 'Author Name 1',
+        //     image: 'https://picsum.photos/720/1080',
+        // },
+        // {
+        //     title: 'Image Title 2',
+        //     author: 'Author Name 2',
+        //     image: 'https://picsum.photos/1080/1920',
+        // },
+        // {
+        //     title: 'Image Title 3',
+        //     author: 'Author Name 3',
+        //     image: 'https://picsum.photos/1440/2560',
+        // },
+        // {
+        //     title: 'Image Title 4',
+        //     author: 'Author Name 4',
+        //     image: 'https://picsum.photos/1080/1920',
+        // },
+        // {
+        //     title: 'Image Title 5',
+        //     author: 'Author Name 5',
+        //     image: 'https://picsum.photos/1080/1920',
+        // },
     ];
 
     return (
@@ -86,7 +86,7 @@ export default function UserProfile() {
                             <UploadIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
 
                             <Button to="/" size="large" variant="contained" component={RouterLink}>
-                                Go to Home
+                                Create Pic
                             </Button>
                         </Box>
                     ) : (
