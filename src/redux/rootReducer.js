@@ -7,7 +7,7 @@ import chatReducer from './slices/chat';
 import productReducer from './slices/product';
 import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
-import imageReducer from './slices/image'
+import pinReducer from './slices/pin';
 
 // ----------------------------------------------------------------------
 
@@ -25,8 +25,8 @@ const productPersistConfig = {
   whitelist: ['sortBy', 'checkout'],
 };
 
-const imagePersistConfig = {
-  key: 'image',
+const pinPersistConfig = {
+  key: 'pin',
   storage,
   keyPrefix: 'redux-',
   whitelist: ['sortBy', 'name'],
@@ -38,7 +38,7 @@ const rootReducer = combineReducers({
   calendar: calendarReducer,
   kanban: kanbanReducer,
   product: persistReducer(productPersistConfig, productReducer),
-  image: persistReducer(imagePersistConfig, imageReducer),
+  pin: persistReducer(pinPersistConfig, pinReducer),
 });
 
 export { rootPersistConfig, rootReducer };

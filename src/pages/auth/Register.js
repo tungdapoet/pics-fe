@@ -1,8 +1,7 @@
-import { capitalCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Card, Link, Container, Typography, Tooltip } from '@mui/material';
+import { Box, Card, Link, Container, Typography } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useResponsive from '../../hooks/useResponsive';
@@ -10,11 +9,11 @@ import useResponsive from '../../hooks/useResponsive';
 import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
-import Logo from '../../components/Logo';
+import LogoFull from "../../components/LogoFull";
 import Image from '../../components/Image';
 // sections
 import { RegisterForm } from '../../sections/auth/register';
-import LogoFull from "../../components/LogoFull";
+
 
 // ----------------------------------------------------------------------
 
