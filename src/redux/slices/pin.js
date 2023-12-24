@@ -9,8 +9,8 @@ import { dispatch } from '../store';
 const initialState = {
     isLoading: false,
     error: null,
-    images: [],
-    image: {
+    pins: [],
+    pin: {
         url: '/1',
         src: 'https://picsum.photos/1080/1920',
         title: 'Image title 1',
@@ -47,16 +47,13 @@ const initialState = {
             },
         ]
     },
-    sortBy: null,
     filters: {
-        gender: [],
-        category: 'All',
-        colors: [],
+        tags: [],
     },
 };
 
 const slice = createSlice({
-    name: 'product',
+    name: 'pin',
     initialState,
     reducers: {
         // START LOADING
@@ -70,27 +67,21 @@ const slice = createSlice({
             state.error = action.payload;
         },
 
-        // GET PRODUCTS
-        getImagesSuccess(state, action) {
+        // GET PIN LIST
+        getPinListSuccess(state, action) {
             state.isLoading = false;
-            state.images = action.payload;
+            state.pinList = action.payload;
         },
 
         // GET PRODUCT
-        getImageSuccess(state, action) {
+        getPinSuccess(state, action) {
             state.isLoading = false;
-            state.image = action.payload;
+            state.pin = action.payload;
         },
 
-        //  SORT & FILTER PRODUCTS
-        sortByProducts(state, action) {
-            state.sortBy = action.payload;
-        },
-
-        filterProducts(state, action) {
-            state.filters.gender = action.payload.gender;
-            state.filters.category = action.payload.category;
-            state.filters.colors = action.payload.colors;
+        // FILTER
+        filterPins(state, action) {
+            state.filters.tag = action.payload.tag;
         },
     },
 });
@@ -100,21 +91,21 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function listImages() {
-    return async () => {
-        dispatch(slice.actions.startLoading());
-        try {
-            const response = await axios.get('/api/image/all');
-            dispatch(slice.actions.getImagesSuccess(response.data.images));
-        } catch (error) {
-            dispatch(slice.actions.hasError(error));
-        }
-    };
-}
+// export function PinList() {
+//     return async () => {
+//         dispatch(slice.actions.startLoading());
+//         try {
+//             const response = await axios.get('/api/image/all');
+//             dispatch(slice.actions.getImagesSuccess(response.data.images));
+//         } catch (error) {
+//             dispatch(slice.actions.hasError(error));
+//         }
+//     };
+// }
 
 // ----------------------------------------------------------------------
 
-export function getImage(name) {
+export function getPin(name) {
     return async () => {
         dispatch(slice.actions.startLoading());
         try {
@@ -123,10 +114,10 @@ export function getImage(name) {
             // });
             const response = {
                 data: {
-                    image: null
+                    pin: initialState.pin
                 }
             }
-            dispatch(slice.actions.getImageSuccess(response.data.image));
+            dispatch(slice.actions.getPinSuccess(response.data.pin));
         } catch (error) {
             console.error(error);
             dispatch(slice.actions.hasError(error));

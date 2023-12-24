@@ -21,11 +21,11 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-ImageCommentList.propTypes = {
+PinCommentList.propTypes = {
     image: PropTypes.object,
 };
 
-export default function ImageCommentList({image}) {
+export default function PinCommentList({image}) {
     console.log(image)
     const {comments} = image;
 
