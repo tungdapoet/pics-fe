@@ -11,6 +11,7 @@ import NotistackProvider from './components/NotistackProvider';
 import ThemeColorPresets from './components/ThemeColorPresets';
 import ThemeLocalization from './components/ThemeLocalization';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
+import Settings from "./components/settings";
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function App() {
                 <ProgressBarStyle />
                 <ChartStyle />
                 <ScrollToTop />
+                <Settings/>
                 <Router />
               </MotionLazyContainer>
             </NotistackProvider>

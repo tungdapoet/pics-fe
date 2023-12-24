@@ -8,7 +8,7 @@ import Page from "../../../components/Page";
 
 // ----------------------------------------------------------------------
 
-export default function Home() {
+export default function ManagePin() {
     const { themeStretch } = useSettings();
 
     return (

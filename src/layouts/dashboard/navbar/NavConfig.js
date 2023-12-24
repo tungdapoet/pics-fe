@@ -51,7 +51,16 @@ const navConfig = [
           { title: 'edit', path: PATH_DASHBOARD.general.profile.edit, icon: ICONS.ecommerce },
         ]
       },
-      { title: 'settings', path: PATH_DASHBOARD.general.settings, icon: ICONS.analytics },
+      {
+        title: 'admin',
+        path: PATH_DASHBOARD.general.management.report,
+        icon: ICONS.ecommerce,
+        children: [
+          { title: 'reports', path: PATH_DASHBOARD.general.management.report, icon: ICONS.dashboard },
+          { title: 'users', path: PATH_DASHBOARD.general.management.user, icon: ICONS.dashboard },
+          { title: 'pics', path: PATH_DASHBOARD.general.management.pic, icon: ICONS.ecommerce },
+        ]
+      },
     ],
   },
   // GENERAL

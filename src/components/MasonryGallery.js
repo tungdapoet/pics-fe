@@ -1,9 +1,13 @@
-
+import PropTypes, {any} from "prop-types";
 import React from 'react';
 import Masonry from '@mui/lab/Masonry';
 import Pin from './Pin';
 
-const MasonryGallery = ({ items }) => {
+
+MasonryGallery.propTypes = {
+    items: PropTypes.arrayOf(any)
+};
+export default function MasonryGallery({ items }) {
     return (
         <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
             {items.map((item, index) => (
@@ -13,4 +17,4 @@ const MasonryGallery = ({ items }) => {
     );
 };
 
-export default MasonryGallery;
+

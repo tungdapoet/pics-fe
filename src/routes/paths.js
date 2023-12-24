@@ -47,7 +47,12 @@ export const PATH_DASHBOARD = {
       user: path(ROOTS_DASHBOARD, '/profile/user'),
       edit: path(ROOTS_DASHBOARD, '/profile/edit'),
     },
-    settings: path(ROOTS_DASHBOARD, '/settings'),
+    management: {
+      root: path(ROOTS_DASHBOARD, '/management'),
+      report: path(ROOTS_DASHBOARD, '/management/report'),
+      user: path(ROOTS_DASHBOARD, '/management/user'),
+      pic: path(ROOTS_DASHBOARD, '/management/pic'),
+    },
     categories: path(ROOTS_DASHBOARD, '/categories'),
     app: path(ROOTS_DASHBOARD, '/app'),
     ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
