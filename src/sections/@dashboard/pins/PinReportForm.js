@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import PropTypes from "prop-types";
 import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate} from 'react-router-dom';
@@ -13,7 +14,6 @@ import {Grid, Card, Stack, Button, Typography} from '@mui/material';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import {FormProvider, RHFCheckbox} from '../../../components/hook-form';
-import PropTypes from "prop-types";
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +66,9 @@ export default function PinReportForm({id, onClose, callback}){
 
     const values = watch();
 
+    const onSubmit = async () => {
+        console.log("hello")
+    }
 
     return (
         <>
