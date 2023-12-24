@@ -26,8 +26,61 @@ import { PageNotFoundIllustration } from "../../../assets";
 import MenuPopover from "../../../components/MenuPopover";
 import PinReportForm from "../../../sections/@dashboard/pins/PinReportForm";
 import {DialogAnimate} from "../../../components/animate";
+import MasonryGallery from "../../../components/MasonryGallery";
 
 // ----------------------------------------------------------------------
+const items = [
+    {
+        title: 'Image Title 1',
+        author: 'Author Name 1',
+        image: 'https://picsum.photos/720/1080',
+    },
+    {
+        title: 'Image Title 2',
+        author: 'Author Name 2',
+        image: 'https://picsum.photos/1080/1920',
+    },
+    {
+        title: 'Image Title 3',
+        author: 'Author Name 3',
+        image: 'https://picsum.photos/1440/2560',
+    },
+    {
+        title: 'Image Title 4',
+        author: 'Author Name 4',
+        image: 'https://picsum.photos/1080/1920',
+    },
+    {
+        title: 'Image Title 5',
+        author: 'Author Name 5',
+        image: 'https://picsum.photos/1080/1920',
+    },{
+        title: 'Image Title 1',
+        author: 'Author Name 1',
+        image: 'https://picsum.photos/720/1080',
+    },
+    {
+        title: 'Image Title 2',
+        author: 'Author Name 2',
+        image: 'https://picsum.photos/1080/1920',
+    },
+    {
+        title: 'Image Title 3',
+        author: 'Author Name 3',
+        image: 'https://picsum.photos/1440/2560',
+    },
+    {
+        title: 'Image Title 4',
+        author: 'Author Name 4',
+        image: 'https://picsum.photos/1080/1920',
+    },
+    {
+        title: 'Image Title 5',
+        author: 'Author Name 5',
+        image: 'https://picsum.photos/1080/1920',
+    },
+    // Add more items as needed
+];
 
 export default function PinDetail() {
     const {themeStretch} = useSettings();
@@ -168,6 +221,10 @@ export default function PinDetail() {
                     <PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
             </DialogAnimate>
 
+            <Typography align="center" sx={{mt: 4, mb: 4}} variant="h4">More like this</Typography>
+            <Container maxWidth='xl'>
+                <MasonryGallery items={items} />
+            </Container>
         </Page>
     );
 }
