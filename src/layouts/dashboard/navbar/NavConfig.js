@@ -61,7 +61,7 @@ const navConfig = [
           { title: 'pics', path: PATH_DASHBOARD.general.management.pic, icon: ICONS.ecommerce },
         ]
       },
-      { title: 'settings', path: PATH_DASHBOARD.general.management.pic, icon: ICONS.ecommerce },
+      { title: 'settings', path: PATH_DASHBOARD.general.settings, icon: ICONS.ecommerce },
     ],
   },
   // GENERAL
