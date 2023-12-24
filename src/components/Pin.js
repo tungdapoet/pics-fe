@@ -1,7 +1,9 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 import {Avatar, Card, CardContent, CardMedia, Stack, Typography} from '@mui/material';
 import PropTypes from "prop-types";
 import createAvatar from "../utils/createAvatar";
+import {PATH_DASHBOARD} from "../routes/paths";
 
 Pin.propTypes = {
     title: PropTypes.string,
@@ -11,9 +13,12 @@ Pin.propTypes = {
 
 export default function Pin({ title, author, image }) {
 
+    const navigate = useNavigate();
     const handleClick = () => {
         console.log('hello');
     };
+
+
 
     return (
         <Card sx={{ maxWidth: 345, boxShadow: 3, cursor: 'pointer' }} onClick={handleClick}>
@@ -26,6 +31,7 @@ export default function Pin({ title, author, image }) {
                     height: 'auto',
                     objectFit: 'contain'
                 }}
+                onClick={() => navigate(PATH_DASHBOARD.general.pin.detail)}
             />
             <CardContent sx={{ textAlign: 'left' }}>
                 <Typography gutterBottom variant="h5" component="div">
@@ -35,7 +41,9 @@ export default function Pin({ title, author, image }) {
                     {title}
                 </Typography>
 
-                <Stack direction="row" alignItems="center" spacing={2}>
+                <Stack
+                    onClick={() => navigate(PATH_DASHBOARD.general.profile.user)}
+                    direction="row" alignItems="center" spacing={2}>
                     <Avatar
                         src={author?.photoURL}
                         alt={author?.displayName}

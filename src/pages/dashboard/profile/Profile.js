@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Typography, Avatar, Grid, Button, Card, Box, Paper } from '@mui/material';
-import { NavLink as RouterLink } from 'react-router-dom';
+import {NavLink as RouterLink, useNavigate} from 'react-router-dom';
 import Page from "../../../components/Page";
 import useSettings from "../../../hooks/useSettings";
 import MasonryGallery from "../../../components/MasonryGallery";
 import {UploadIllustration} from "../../../assets";
+import {PATH_DASHBOARD} from "../../../routes/paths";
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +19,7 @@ const StatCard = ({ number, label }) => (
 
 export default function UserProfile() {
     const { themeStretch } = useSettings();
+    const navigate = useNavigate();
 
     const items = [
         // {
@@ -70,7 +72,9 @@ export default function UserProfile() {
                         </Grid>
 
                         <Box sx={{ mt: 3 }}>
-                            <Button variant="contained" sx={{ mr: 1 }}>Edit</Button>
+                            <Button
+                                onClick={() => navigate(PATH_DASHBOARD.general.profile.edit)}
+                                variant="contained" sx={{ mr: 1 }}>Edit</Button>
                         </Box>
                     </Box>
                 </Paper>
