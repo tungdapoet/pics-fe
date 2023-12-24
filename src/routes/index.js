@@ -91,6 +91,7 @@ export default function Router() {
             { path: 'pic', element: <ManagePin /> },
           ]
         },
+        { path: 'settings', element: <Settings /> },
         { path: 'app', element: <GeneralApp /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'analytics', element: <GeneralAnalytics /> },
@@ -214,8 +215,11 @@ const ManagePin = Loadable(lazy(() => import('../pages/dashboard/admin/ManagePin
 const ManageUser = Loadable(lazy(() => import('../pages/dashboard/admin/ManageUser')));
 const ManageReport = Loadable(lazy(() => import('../pages/dashboard/admin/Report')));
 
-// SETTINGS
+// CATEGORIES
 const Categories = Loadable(lazy(() => import('../pages/dashboard/general/Categories')));
+
+// SETTINGS
+const Settings = Loadable(lazy(() => import('../pages/dashboard/Settings')));
 
 // GENERAL
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
