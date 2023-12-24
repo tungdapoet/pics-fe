@@ -10,7 +10,7 @@ import {
     CardMedia,
     CardContent,
     Avatar,
-    Button, TextField, IconButton, MenuItem, Divider
+    Button, TextField, IconButton, MenuItem, Divider, Stack
 } from '@mui/material';
 // redux
 import {useDispatch, useSelector} from '../../../redux/store';
@@ -70,6 +70,34 @@ export default function PinDetail() {
                                         }}
                                     >
                                         <div>
+                                            <Stack
+                                                sx={{mb: 6}}
+                                                direction="row"
+                                                justifyContent="space-between"
+                                                alignItems="center"
+                                            >
+                                                <div>
+                                                    <MoreMenuButton handleClickReport={handleOpenReportForm}/>
+                                                    <IconButton>
+                                                        <Iconify icon={'material-symbols:upload'} width={24} height={24} />
+                                                    </IconButton>
+                                                    <IconButton>
+                                                        <Iconify icon={'bx:link'} width={24} height={24} />
+                                                    </IconButton>
+                                                </div>
+                                                <Button variant="contained" color="primary">
+                                                    Save
+                                                </Button>
+                                            </Stack>
+
+                                            <Typography sx={{mt: 5}} variant="h4">
+                                                {pin.title}
+                                            </Typography>
+
+                                            <Typography sx={{mt: 2, mb: 5}}>
+                                                {pin.description}
+                                            </Typography>
+
                                             <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
                                                 <Grid item style={{display: 'flex', alignItems: 'center'}}>
                                                     <Avatar sx={{mr: 2}} src={pin.user.avatar} alt="Avatar"/>
@@ -84,20 +112,10 @@ export default function PinDetail() {
                                                     <Button variant="contained" color="primary">
                                                         Follow
                                                     </Button>
-                                                    <MoreMenuButton handleClickReport={handleOpenReportForm}/>
                                                 </Grid>
-
                                             </Grid>
 
-                                            <Typography sx={{mt: 5}} variant="h4">
-                                                {pin.title}
-                                            </Typography>
-
-                                            <Typography sx={{mt: 2}}>
-                                                {pin.description}
-                                            </Typography>
-
-                                            <Typography sx={{mt: 5}} variant="h4">
+                                            <Typography sx={{mt: 5}} variant="h6">
                                                 Comments
                                             </Typography>
 
@@ -176,7 +194,7 @@ function MoreMenuButton({handleClickReport}) {
     return (
         <>
             <IconButton size="large" onClick={handleOpen}>
-                <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+                <Iconify icon={'eva:more-horizontal-fill'} width={20} height={20} />
             </IconButton>
 
             <MenuPopover
