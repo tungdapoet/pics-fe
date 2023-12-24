@@ -9,6 +9,10 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 const getIcon = (name) => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
 const ICONS = {
+  admin: getIcon('ic_admin'),
+  home: getIcon('ic_home'),
+  pic: getIcon('ic_pic'),
+  settings: getIcon('ic_settings'),
   blog: getIcon('ic_blog'),
   cart: getIcon('ic_cart'),
   chat: getIcon('ic_chat'),
@@ -30,12 +34,11 @@ const navConfig = [
   {
     subheader: 'general',
     items: [
-      { title: 'home', path: PATH_DASHBOARD.general.home, icon: ICONS.dashboard },
-      { title: 'categories', path: PATH_DASHBOARD.general.categories, icon: ICONS.analytics },
+      { title: 'home', path: PATH_DASHBOARD.general.home, icon: ICONS.home },
       {
-        title: 'pin',
+        title: 'pic',
         path: PATH_DASHBOARD.general.pin.detail,
-        icon: ICONS.ecommerce,
+        icon: ICONS.pic,
         children: [
           { title: 'details', path: PATH_DASHBOARD.general.pin.detail, icon: ICONS.dashboard },
           { title: 'create', path: PATH_DASHBOARD.general.pin.create, icon: ICONS.ecommerce },
@@ -44,7 +47,7 @@ const navConfig = [
       {
         title: 'profile',
         path: PATH_DASHBOARD.general.profile.detail,
-        icon: ICONS.ecommerce,
+        icon: ICONS.user,
         children: [
           { title: 'details', path: PATH_DASHBOARD.general.profile.detail, icon: ICONS.dashboard },
           { title: 'User', path: PATH_DASHBOARD.general.profile.user, icon: ICONS.dashboard },
@@ -54,14 +57,14 @@ const navConfig = [
       {
         title: 'admin',
         path: PATH_DASHBOARD.general.management.report,
-        icon: ICONS.ecommerce,
+        icon: ICONS.admin,
         children: [
           { title: 'reports', path: PATH_DASHBOARD.general.management.report, icon: ICONS.dashboard },
           { title: 'users', path: PATH_DASHBOARD.general.management.user, icon: ICONS.dashboard },
           { title: 'pics', path: PATH_DASHBOARD.general.management.pic, icon: ICONS.ecommerce },
         ]
       },
-      { title: 'settings', path: PATH_DASHBOARD.general.settings, icon: ICONS.ecommerce },
+      { title: 'settings', path: PATH_DASHBOARD.general.settings, icon: ICONS.settings },
     ],
   },
   // GENERAL
