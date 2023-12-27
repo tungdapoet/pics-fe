@@ -1,10 +1,9 @@
-import { createContext, useEffect, useReducer } from 'react';
+import {createContext, useEffect, useReducer} from 'react';
 import PropTypes from 'prop-types';
 // utils
-import {useNavigate} from "react-router-dom";
 import axios from '../utils/axios';
-import { isValidToken, setSession } from '../utils/jwt';
-import {authRegister} from "../api/auth";
+import { setSession } from '../utils/jwt';
+import {authRegister, confirmCreateNewAccount} from "../api/auth";
 
 // ----------------------------------------------------------------------
 
@@ -43,8 +42,15 @@ const handlers = {
 
     return {
       ...state,
-      isAuthenticated: true,
+      isAuthenticated: false,
       user,
+    };
+  },
+  VERIFY: (state) => {
+    return {
+      ...state,
+      isAuthenticated: false,
+      user: null,
     };
   },
 };
@@ -57,6 +63,7 @@ const AuthContext = createContext({
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
+  verify: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -69,41 +76,13 @@ function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     const initialize = async () => {
-      try {
-        const accessToken = window.localStorage.getItem('accessToken');
-
-        if (accessToken && isValidToken(accessToken)) {
-          setSession(accessToken);
-
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
-
-          dispatch({
-            type: 'INITIALIZE',
-            payload: {
-              isAuthenticated: true,
-              user,
-            },
-          });
-        } else {
-          dispatch({
-            type: 'INITIALIZE',
-            payload: {
-              isAuthenticated: false,
-              user: null,
-            },
-          });
-        }
-      } catch (err) {
-        console.error(err);
-        dispatch({
-          type: 'INITIALIZE',
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
+      dispatch({
+        type: 'INITIALIZE',
+        payload: {
+          isAuthenticated: false,
+          user: null,
+        },
+      });
     };
 
     initialize();
@@ -125,7 +104,6 @@ function AuthProvider({ children }) {
   };
 
   const register = async ({userName, password,fullName, dateOfBirth, email}) => {
-      console.log(userName, password, fullName, dateOfBirth, email)
     const response = await authRegister( {
       userName,
       password,
@@ -134,16 +112,26 @@ function AuthProvider({ children }) {
       email
     });
     console.log(response)
-    const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
     dispatch({
       type: 'REGISTER',
       payload: {
-        user,
+        isAuthenticated: false,
+        user: null,
       },
     });
   };
+
+  const verify = async({confirmCode}) => {
+    await confirmCreateNewAccount(confirmCode);
+    dispatch({
+      type: 'VERIFY',
+      payload: {
+        isAuthenticated: false,
+        user: null,
+      }
+    })
+  }
 
   const logout = async () => {
     setSession(null);
@@ -158,6 +146,7 @@ function AuthProvider({ children }) {
         login,
         logout,
         register,
+        verify
       }}
     >
       {children}

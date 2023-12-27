@@ -1,3 +1,4 @@
+import {useContext} from "react";
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -11,6 +12,7 @@ import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 // sections
 import { VerifyCodeForm } from '../../sections/auth/verify-code';
+import {AuthContext} from "../../contexts/JWTContext";
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +26,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function VerifyCode() {
+  const { method } = useContext(AuthContext);
   return (
     <Page title="Verify" sx={{ height: 1 }}>
       <RootStyle>
@@ -52,13 +55,6 @@ export default function VerifyCode() {
             <Box sx={{ mt: 5, mb: 3 }}>
               <VerifyCodeForm />
             </Box>
-
-            <Typography variant="body2" align="center">
-              Don’t have a code? &nbsp;
-              <Link variant="subtitle2" underline="none" onClick={() => {}}>
-                Resend code
-              </Link>
-            </Typography>
           </Box>
         </Container>
       </RootStyle>

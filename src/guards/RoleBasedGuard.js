@@ -9,8 +9,7 @@ RoleBasedGuard.propTypes = {
 };
 
 const useCurrentRole = () => {
-  // Logic here to get current user role
-  const role = 'admin';
+  const role = 'Quản trị viên';
   return role;
 };
 
