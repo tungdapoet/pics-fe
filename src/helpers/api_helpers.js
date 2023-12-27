@@ -31,9 +31,9 @@ axiosApi.interceptors.request.use(async (config) => {
 
 export default axiosApi;
 
-export async function get(url, config = {}) {
+export async function get(url, params, config = {}) {
     // eslint-disable-next-line no-return-await
-    return await axiosApi.get(url, {...config}).then(response => response.data)
+    return await axiosApi.get(url, {params, ...config}).then(response => response.data)
 }
 
 // export async function getBlob(url, config = {}) {

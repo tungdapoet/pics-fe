@@ -37,9 +37,6 @@ export default function Pin({ title, author, image }) {
                 <Typography gutterBottom variant="h5" component="div">
                     {title}
                 </Typography>
-                <Typography gutterBottom variant="p" component="div">
-                    {title}
-                </Typography>
 
                 <Stack
                     onClick={() => navigate(PATH_DASHBOARD.general.profile.user)}
