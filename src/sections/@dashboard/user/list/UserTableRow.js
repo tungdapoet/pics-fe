@@ -5,6 +5,7 @@ import { Avatar, Checkbox, TableRow, TableCell, Typography, MenuItem } from '@mu
 // components
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
+import {email} from "../../../../_mock/email";
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ UserTableRow.propTypes = {
 
 export default function UserTableRow({ row, selected, onSelectRow, onDeleteRow }) {
 
-  const { name, avatarUrl, company, role, isVerified } = row;
+  const { fullName, roleName, email, avatarUrl, userStatusName } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -36,26 +37,26 @@ export default function UserTableRow({ row, selected, onSelectRow, onDeleteRow }
       </TableCell>
 
       <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+        <Avatar alt={fullName} src={avatarUrl} sx={{ mr: 2 }} />
         <Typography variant="subtitle2" noWrap>
-          {name}
+          {fullName}
         </Typography>
       </TableCell>
 
-      <TableCell align="left">{company}</TableCell>
+      <TableCell align="left">{roleName}</TableCell>
 
       <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        {role}
+        {email}
       </TableCell>
 
       <TableCell align="center">
         <Iconify
-          icon={isVerified ? 'eva:checkmark-circle-fill' : 'solar:forbidden-outline'}
+          icon={userStatusName === 'Đã kích hoạt' ? 'eva:checkmark-circle-fill' : 'solar:forbidden-outline'}
           sx={{
             width: 20,
             height: 20,
             color: 'success.main',
-            ...(!isVerified && { color: 'error.main' }),
+            ...(!(userStatusName === 'Đã kích hoạt') && { color: 'error.main' }),
           }}
         />
       </TableCell>

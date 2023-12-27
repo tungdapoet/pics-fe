@@ -26,67 +26,21 @@ import { PageNotFoundIllustration } from "../../../assets";
 import MenuPopover from "../../../components/MenuPopover";
 import PinReportForm from "../../../sections/@dashboard/pins/PinReportForm";
 import {DialogAnimate} from "../../../components/animate";
+import {getPostById} from "../../../api/posts";
 
-// ----------------------------------------------------------------------
-const items = [
-    {
-        title: 'Image Title 1',
-        author: 'Author Name 1',
-        image: 'https://picsum.photos/720/1080',
-    },
-    {
-        title: 'Image Title 2',
-        author: 'Author Name 2',
-        image: 'https://picsum.photos/1080/1920',
-    },
-    {
-        title: 'Image Title 3',
-        author: 'Author Name 3',
-        image: 'https://picsum.photos/1440/2560',
-    },
-    {
-        title: 'Image Title 4',
-        author: 'Author Name 4',
-        image: 'https://picsum.photos/1080/1920',
-    },
-    {
-        title: 'Image Title 5',
-        author: 'Author Name 5',
-        image: 'https://picsum.photos/1080/1920',
-    },{
-        title: 'Image Title 1',
-        author: 'Author Name 1',
-        image: 'https://picsum.photos/720/1080',
-    },
-    {
-        title: 'Image Title 2',
-        author: 'Author Name 2',
-        image: 'https://picsum.photos/1080/1920',
-    },
-    {
-        title: 'Image Title 3',
-        author: 'Author Name 3',
-        image: 'https://picsum.photos/1440/2560',
-    },
-    {
-        title: 'Image Title 4',
-        author: 'Author Name 4',
-        image: 'https://picsum.photos/1080/1920',
-    },
-    {
-        title: 'Image Title 5',
-        author: 'Author Name 5',
-        image: 'https://picsum.photos/1080/1920',
-    },
-    // Add more items as needed
-];
 
 export default function PinDetail() {
+    const {id} = useParams();
     const {themeStretch} = useSettings();
     const dispatch = useDispatch();
     const {name = ''} = useParams();
-    const {pin, error} = useSelector((state) => state.pin);
+    const [pin, setPin] = useState({})
     const [isOpenReportForm, setIsOpenReportForm] = useState(false);
+
+    useEffect(async () => {
+        const res = await getPostById(id);
+        setPin(res.data)
+    }, []);
 
     const handleSubmitReport = () => {
         setIsOpenReportForm(false)
@@ -109,7 +63,7 @@ export default function PinDetail() {
                         <Card>
                             <Grid container>
                                 <Grid item xs={6}>
-                                    <CardMedia component="img" image={pin.src} alt="Image"/>
+                                    <CardMedia component="img" image={pin?.imageUrl} alt="Image"/>
                                 </Grid>
 
                                 <Grid item xs={6}>
@@ -143,20 +97,20 @@ export default function PinDetail() {
                                             </Stack>
 
                                             <Typography sx={{mt: 5}} variant="h4">
-                                                {pin.title}
+                                                {pin?.title}
                                             </Typography>
 
                                             <Typography sx={{mt: 2, mb: 5}}>
-                                                {pin.description}
+                                                {pin?.description}
                                             </Typography>
 
                                             <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
                                                 <Grid item style={{display: 'flex', alignItems: 'center'}}>
-                                                    <Avatar sx={{mr: 2}} src={pin.user.avatar} alt="Avatar"/>
+                                                    <Avatar sx={{mr: 2}} src={pin?.user?.avatar} alt="Avatar"/>
                                                     <div>
-                                                        <Typography variant="h6">{pin.user.name}</Typography>
+                                                        <Typography variant="h6">{pin?.user?.name}</Typography>
                                                         <Typography
-                                                            variant="body2">{pin.user.followers} followers
+                                                            variant="body2">{pin?.user?.followers} followers
                                                         </Typography>
                                                     </div>
                                                 </Grid>
@@ -177,14 +131,14 @@ export default function PinDetail() {
                                         <div>
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Typography variant="h6">
-                                                    {pin.comments.length} comments
+                                                    {pin?.comments?.length} comments
                                                 </Typography>
                                                 <Button
                                                     size="small"
                                                     color="inherit"
                                                     startIcon={<Iconify icon='icon-park-solid:like' />}
                                                 >
-                                                    {pin.like}
+                                                    {pin?.like}
                                                 </Button>
 
                                             </div>

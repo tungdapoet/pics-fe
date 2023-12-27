@@ -1,8 +1,8 @@
 import {del, get, post, put} from '../../helpers/api_helpers'
 
-export const getAllUser = (config) => get(`/user/GetAllUsers`, config)
+export const getAllUser = (params) => get(`/user/GetAllUsers`, params)
 
-export const getUserByName = (config) => get(`/user/GetUserByName`, config)
+export const getUserByName = (params) => get(`/user/GetUserByName`, params)
 
 export const updateUser = (body) => put(`/user/UpdateUser`, body)
 

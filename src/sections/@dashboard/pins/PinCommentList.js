@@ -32,8 +32,8 @@ export default function PinCommentList({image}) {
     return (
         <Box sx={{pt: 3, px: 2, pb: 5}}>
             <List disablePadding>
-                {comments.map((comment) => (
-                    <CommentItem key={comment.id} comment={comment}/>
+                {comments?.length && comments.length && comments.map((comment) => (
+                    <CommentItem key={comment?.id} comment={comment}/>
                 ))}
             </List>
         </Box>
@@ -68,11 +68,11 @@ function CommentItem({comment}) {
                     }}
                 >
                     <ListItemAvatar>
-                        <Avatar src={user.avatar} sx={{width: 48, height: 48}}/>
+                        <Avatar src={user?.avatar} sx={{width: 48, height: 48}}/>
                     </ListItemAvatar>
 
                     <ListItemText
-                        primary={user.name}
+                        primary={user?.name}
                         primaryTypographyProps={{variant: 'subtitle1'}}
                         secondary={
                             <div style={{textAlign: 'left'}}>

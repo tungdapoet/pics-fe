@@ -1,5 +1,5 @@
 import { paramCase } from 'change-case';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import {
@@ -28,6 +28,7 @@ import Scrollbar from '../../../components/Scrollbar';
 import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
+import {deleteUser, getAllUser} from "../../../api/user";
 
 // ----------------------------------------------------------------------
 
@@ -38,11 +39,11 @@ const ROLE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'Name', align: 'left' },
-    { id: 'email', label: 'email', align: 'left' },
-    { id: 'role', label: 'Role', align: 'left' },
-    { id: 'isLocked', label: 'Status', align: 'center' },
-    { id: '' },
+    { id: 'fullName', label: 'Full name', align: 'left' },
+    { id: 'roleName', label: 'Role', align: 'left' },
+    { id: 'email', label: 'Email', align: 'left' },
+    { id: 'userStatusName', label: 'Status', align: 'left' },
+    { id: '', label: 'Action', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
@@ -75,6 +76,15 @@ export default function ManageUser() {
 
     const [filterRole, setFilterRole] = useState('all');
 
+    useEffect(async () => {
+        const res = await getAllUser({
+            pageNumber: page + 1,
+            pageSize: rowsPerPage
+        });
+        console.log(res)
+        setTableData(res.data)
+    }, []);
+
     const handleFilterName = (filterName) => {
         setFilterName(filterName);
         setPage(0);
@@ -84,10 +94,9 @@ export default function ManageUser() {
         setFilterRole(event.target.value);
     };
 
-    const handleDeleteRow = (id) => {
-        const deleteRow = tableData.filter((row) => row.id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
+    const handleDeleteRow = async (id) => {
+        const res = await deleteUser(id);
+        navigate(0)
     };
 
     const handleDeleteRows = (selected) => {

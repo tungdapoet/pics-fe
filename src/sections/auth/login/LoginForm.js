@@ -31,8 +31,8 @@ export default function LoginForm() {
   });
 
   const defaultValues = {
-    username: 'tungdd',
-    password: '123456',
+    username: 'qhhg',
+    password: 'qhhg123',
     remember: true,
   };
 

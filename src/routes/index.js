@@ -69,7 +69,7 @@ export default function Router() {
           path: 'pin',
           children: [
             { element: <Navigate to="/dashboard/pin/detail" replace />, index: true },
-            { path: 'detail', element: <PinDetail /> },
+            { path: 'detail/:id', element: <PinDetail /> },
             { path: 'create', element: <CreatePin /> },
           ]
         },
