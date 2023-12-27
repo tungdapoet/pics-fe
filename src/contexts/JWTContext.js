@@ -1,8 +1,10 @@
 import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
+import {useNavigate} from "react-router-dom";
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
+import {authRegister} from "../api/auth";
 
 // ----------------------------------------------------------------------
 
@@ -65,7 +67,6 @@ AuthProvider.propTypes = {
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -108,29 +109,31 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
-  const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
+  const login = async (username, password) => {
+    const response = await axios.post('/auth/Login', {
+      username,
       password,
     });
-    const { accessToken, user } = response.data;
-
+    const { accessToken, dataResponseUser } = response.data.data;
     setSession(accessToken);
     dispatch({
       type: 'LOGIN',
       payload: {
-        user,
+        user: dataResponseUser,
       },
     });
   };
 
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
+  const register = async ({userName, password,fullName, dateOfBirth, email}) => {
+      console.log(userName, password, fullName, dateOfBirth, email)
+    const response = await authRegister( {
+      userName,
       password,
-      firstName,
-      lastName,
+      fullName,
+      dateOfBirth,
+      email
     });
+    console.log(response)
     const { accessToken, user } = response.data;
 
     window.localStorage.setItem('accessToken', accessToken);

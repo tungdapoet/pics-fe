@@ -1,6 +1,6 @@
 import {del, get, post, put} from '../../helpers/api_helpers'
 
-export const register = (body) => post(`/auth/Register`, body)
+export const authRegister = (body) => post(`/auth/Register`, body)
 
 export const confirmCreateNewAccount = (body) => post(`auth/ConfirmCreateNewAccount`, body)
 

@@ -57,11 +57,11 @@ export default function NavbarAccount({ isCollapse }) {
           }}
         >
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {user?.fullName}
           </Typography>
-            {user.role === 'ADMIN' && (
+            {user.roleName === 'Quản trị viên' && (
                 <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-                    {user?.role}
+                    {user?.roleName}
                 </Typography>
             )}
         </Box>
