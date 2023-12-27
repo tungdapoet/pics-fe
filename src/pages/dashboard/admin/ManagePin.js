@@ -44,17 +44,15 @@ import PinTableToolbar from "../../../sections/@dashboard/pins/PinToolBar";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'Product', align: 'left' },
-    { id: 'createdBy', label: 'Create by', align: 'left' },
-    { id: 'createdAt', label: 'Create at', align: 'left' },
-    { id: 'inventoryType', label: 'Status', align: 'center', width: 180 },
-    { id: 'price', label: 'Price', align: 'right' },
+    { id: 'name', label: 'Pic', align: 'left' },
+    { id: 'description', label: 'Description', align: 'left' },
+    { id: 'createdBy', label: 'createdBy', align: 'left' },
     { id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function EcommerceProductList() {
+export default function ManagePin() {
     const {
         page,
         order,

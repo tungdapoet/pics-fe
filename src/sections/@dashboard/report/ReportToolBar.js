@@ -5,19 +5,18 @@ import { Stack, InputAdornment, TextField } from '@mui/material';
 import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
-
-PinTableToolbar.propTypes = {
+ReportToolBar.propTypes = {
     filterName: PropTypes.string,
     onFilterName: PropTypes.func,
 };
 
-export default function PinTableToolbar({ filterName, onFilterName }) {
+export default function ReportToolBar({ filterName, onFilterName }) {
     return (
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ py: 2.5, px: 3 }}>
             <TextField
                 value={filterName}
                 onChange={(event) => onFilterName(event.target.value)}
-                placeholder="Search Pic..."
+                placeholder="Search Report..."
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">

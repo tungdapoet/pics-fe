@@ -10,7 +10,7 @@ import { TableMoreMenu } from '../../../components/table';
 
 // ----------------------------------------------------------------------
 
-PinTableRow.propTypes = {
+ReportTableRow.propTypes = {
     row: PropTypes.object,
     selected: PropTypes.bool,
     onEditRow: PropTypes.func,
@@ -18,9 +18,9 @@ PinTableRow.propTypes = {
     onDeleteRow: PropTypes.func,
 };
 
-export default function PinTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function ReportTableRow({ row, selected, onSelectRow, onDeleteRow }) {
 
-    const { name, cover } = row;
+    const { name } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -38,12 +38,9 @@ export default function PinTableRow({ row, selected, onSelectRow, onDeleteRow })
                 <Checkbox checked={selected} onClick={onSelectRow} />
             </TableCell>
 
-            <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-                <Image disabledEffect alt={name} src={cover} sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }} />
-                <Typography variant="subtitle2" noWrap>
-                    {name}
-                </Typography>
-            </TableCell>
+            <TableCell align="left">{name}</TableCell>
+
+            <TableCell align="left">{name}</TableCell>
 
             <TableCell align="left">{name}</TableCell>
 

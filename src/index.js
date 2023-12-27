@@ -1,6 +1,3 @@
-// i18n
-import './locales/i18n';
-
 // highlight
 import './utils/highlight';
 
@@ -38,9 +35,6 @@ import { store, persistor } from './redux/store';
 // contexts
 import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
-
-// Check our docs
-// https://docs-minimals.vercel.app/authentication/ts-version
 
 import { AuthProvider } from './contexts/JWTContext';
 // import { AuthProvider } from './contexts/Auth0Context';

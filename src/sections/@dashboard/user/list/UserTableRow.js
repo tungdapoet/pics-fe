@@ -50,12 +50,12 @@ export default function UserTableRow({ row, selected, onSelectRow, onDeleteRow }
 
       <TableCell align="center">
         <Iconify
-          icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+          icon={isVerified ? 'eva:checkmark-circle-fill' : 'solar:forbidden-outline'}
           sx={{
             width: 20,
             height: 20,
             color: 'success.main',
-            ...(!isVerified && { color: 'warning.main' }),
+            ...(!isVerified && { color: 'error.main' }),
           }}
         />
       </TableCell>

@@ -10,7 +10,7 @@ import {
     CardMedia,
     CardContent,
     Avatar,
-    Button, TextField, IconButton, MenuItem, Divider, Stack
+    Button, TextField, IconButton, MenuItem, Stack
 } from '@mui/material';
 // redux
 import {useDispatch, useSelector} from '../../../redux/store';
@@ -26,7 +26,6 @@ import { PageNotFoundIllustration } from "../../../assets";
 import MenuPopover from "../../../components/MenuPopover";
 import PinReportForm from "../../../sections/@dashboard/pins/PinReportForm";
 import {DialogAnimate} from "../../../components/animate";
-import MasonryGallery from "../../../components/MasonryGallery";
 
 // ----------------------------------------------------------------------
 const items = [
@@ -220,11 +219,6 @@ export default function PinDetail() {
             <DialogAnimate open={isOpenReportForm} title="Report Pin">
                     <PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
             </DialogAnimate>
-
-            <Typography align="center" sx={{mt: 4, mb: 4}} variant="h4">More like this</Typography>
-            <Container maxWidth='xl'>
-                <MasonryGallery items={items} />
-            </Container>
         </Page>
     );
 }
