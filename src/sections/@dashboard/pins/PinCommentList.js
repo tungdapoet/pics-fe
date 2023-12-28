@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, {object} from 'prop-types';
 import {useState} from 'react';
 // @mui
 import {
@@ -22,19 +22,20 @@ import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
 PinCommentList.propTypes = {
-    image: PropTypes.object,
+    items: PropTypes.arrayOf(object),
 };
 
-export default function PinCommentList({image}) {
-    console.log(image)
-    const {comments} = image;
-
+export default function PinCommentList({items}) {
     return (
         <Box sx={{pt: 3, px: 2, pb: 5}}>
             <List disablePadding>
-                {comments?.length && comments.length && comments.map((comment) => (
+                {items?.length && items.length ? items.map((comment) => (
                     <CommentItem key={comment?.id} comment={comment}/>
-                ))}
+                )) :
+                <Typography>
+                    No comments yet, leave some comments below
+                </Typography>
+                }
             </List>
         </Box>
     );
@@ -48,7 +49,7 @@ CommentItem.propTypes = {
 
 function CommentItem({comment}) {
 
-    const {user, content, createdAt} = comment;
+    const {fullName, content, createdAt} = comment;
 
     return (
         <>
@@ -67,12 +68,8 @@ function CommentItem({comment}) {
                         textAlign: {sm: 'center'},
                     }}
                 >
-                    <ListItemAvatar>
-                        <Avatar src={user?.avatar} sx={{width: 48, height: 48}}/>
-                    </ListItemAvatar>
-
                     <ListItemText
-                        primary={user?.name}
+                        primary={fullName}
                         primaryTypographyProps={{variant: 'subtitle1'}}
                         secondary={
                             <div style={{textAlign: 'left'}}>
@@ -84,7 +81,7 @@ function CommentItem({comment}) {
                                         color: 'text.disabled',
                                     }}
                                 >
-                                    {fDate(createdAt)}
+                                    {createdAt}
                                 </Typography>
                                 <Typography component="span" variant="body2">
                                     {content}

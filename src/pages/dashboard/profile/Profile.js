@@ -7,6 +7,7 @@ import MasonryGallery from "../../../components/MasonryGallery";
 import {UploadIllustration} from "../../../assets";
 import {PATH_DASHBOARD} from "../../../routes/paths";
 import useAuth from "../../../hooks/useAuth";
+import {getUserById, getUserInformation} from "../../../api/user";
 
 // ----------------------------------------------------------------------
 
@@ -26,42 +27,21 @@ const StatCard = ({number, label}) => (
 
 
 export default function UserProfile() {
-    const {user} = useAuth();
+    const { user } = useAuth();
     const [items, setItems] = useState([])
     const {themeStretch} = useSettings();
     const navigate = useNavigate();
+    const [numberOfPosts, setNumberOfPosts] = useState(0);
+    const [following, setFollowing] = useState(0);
+    const [followers, setFollowers] = useState(0);
 
-    // useEffect(() => {
-    //
-    // })
-
-    // const items = [
-    //     // {
-    //     //     title: 'Image Title 1',
-    //     //     author: 'Author Name 1',
-    //     //     image: 'https://picsum.photos/720/1080',
-    //     // },
-    //     // {
-    //     //     title: 'Image Title 2',
-    //     //     author: 'Author Name 2',
-    //     //     image: 'https://picsum.photos/1080/1920',
-    //     // },
-    //     // {
-    //     //     title: 'Image Title 3',
-    //     //     author: 'Author Name 3',
-    //     //     image: 'https://picsum.photos/1440/2560',
-    //     // },
-    //     // {
-    //     //     title: 'Image Title 4',
-    //     //     author: 'Author Name 4',
-    //     //     image: 'https://picsum.photos/1080/1920',
-    //     // },
-    //     // {
-    //     //     title: 'Image Title 5',
-    //     //     author: 'Author Name 5',
-    //     //     image: 'https://picsum.photos/1080/1920',
-    //     // },
-    // ];
+    useEffect(async () => {
+        const res = await getUserInformation(user.id);
+        setItems(res.posts)
+        setFollowers(res.numberOfFollower)
+        setNumberOfPosts(res.postNumber)
+        setFollowing(res.numberOfFollowing)
+    }, []);
 
     return (
         <Page title="Profile">
@@ -84,9 +64,9 @@ export default function UserProfile() {
                         <Typography gutterBottom>{user?.email}</Typography>
 
                         <Grid container spacing={2} justifyContent="center">
-                            <Grid item><StatCard number="21" label="Pins"/></Grid>
-                            <Grid item><StatCard number="238" label="Followers"/></Grid>
-                            <Grid item><StatCard number="101" label="Following"/></Grid>
+                            <Grid item><StatCard number={numberOfPosts} label="Pics"/></Grid>
+                            <Grid item><StatCard number={followers} label="Followers"/></Grid>
+                            <Grid item><StatCard number={following} label="Following"/></Grid>
                         </Grid>
 
                         <Box sx={{mt: 3}}>

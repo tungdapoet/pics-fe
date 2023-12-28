@@ -64,7 +64,6 @@ export default function Router() {
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'home', element: <HomePage /> },
-        { path: 'categories', element: <Categories /> },
         {
           path: 'pin',
           children: [
@@ -78,7 +77,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/profile/detail" replace />, index: true },
             { path: 'detail', element: <ProfileDetail /> },
-            { path: 'user', element: <UserProfile /> },
+            { path: 'user/:id', element: <UserProfile /> },
             { path: 'edit', element: <EditProfile /> },
           ]
         },
@@ -145,9 +144,6 @@ const EditProfile = Loadable(lazy(() => import('../pages/dashboard/profile/EditP
 const ManagePin = Loadable(lazy(() => import('../pages/dashboard/admin/ManagePin')));
 const ManageUser = Loadable(lazy(() => import('../pages/dashboard/admin/ManageUser')));
 const ManageReport = Loadable(lazy(() => import('../pages/dashboard/admin/Report')));
-
-// CATEGORIES
-const Categories = Loadable(lazy(() => import('../pages/dashboard/general/Categories')));
 
 // SETTINGS
 const Settings = Loadable(lazy(() => import('../pages/dashboard/Settings')));

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Container, Typography, Avatar, Grid, Button, Card, Box, Paper} from '@mui/material';
-import {NavLink as RouterLink} from 'react-router-dom';
+import {NavLink as RouterLink, useParams} from 'react-router-dom';
 import Page from "../../../components/Page";
 import useSettings from "../../../hooks/useSettings";
 import MasonryGallery from "../../../components/MasonryGallery";
 import {UploadIllustration} from "../../../assets";
 import UserReportForm from "../../../sections/@dashboard/user/UserReportForm";
 import {DialogAnimate} from "../../../components/animate";
-import {getPostByUser} from "../../../api/posts";
+import {getUserById, getUserInformation} from "../../../api/user";
 
 // ----------------------------------------------------------------------
 
@@ -27,18 +27,27 @@ const StatCard = ({number, label}) => (
 
 
 export default function UserProfile() {
+    const {id} = useParams();
     const {themeStretch} = useSettings();
     const [isFollowing, setIsFollowing] = useState(false);
     const [isOpenReportForm, setIsOpenReportForm] = useState(false);
+    const [user, setUser] = useState({});
     const [items, setItems] = useState([]);
+    const [numberOfPosts, setNumberOfPosts] = useState(0);
+    const [following, setFollowing] = useState(0);
+    const [followers, setFollowers] = useState(0);
 
     useEffect(async () => {
-        const res = await getPostByUser({
-            userId: 1,
-            pageSize: 10,
-            pageNumber: 1
-        })
-        setItems(res.data)
+
+        const userRes = await getUserById(id);
+        const res = await getUserInformation(id);
+        console.log(userRes);
+        console.log(res);
+        setUser(userRes.data)
+        setItems(res.posts)
+        setFollowers(res.numberOfFollower)
+        setNumberOfPosts(res.postNumber)
+        setFollowing(res.numberOfFollowing)
     }, []);
 
     const handleFollowClick = () => {
@@ -96,20 +105,20 @@ export default function UserProfile() {
                 }}>
                     <Box sx={{textAlign: 'center', my: 4}}>
                         <Avatar
-                            alt="Dưa hấu"
-                            src="/static/mock-images/avatars/avatar_default.jpg"
+                            alt="avatar"
+                            src={user.avatarUrl}
                             sx={{width: 140, height: 140, mx: 'auto'}}
                         />
-                        <Typography variant="h4" sx={{mt: 2}}>Dưa hấu</Typography>
-                        <Typography gutterBottom>@duahau</Typography>
+                        <Typography variant="h4" sx={{mt: 2}}>{user.fullName}</Typography>
+                        <Typography gutterBottom>@{user.userName}</Typography>
                         <Typography gutterBottom sx={{mb: 3}}>
-                            giữ chặt niềm vui bình yên bằng cả giấc mơ hồn nhiên
+                            {user.email}
                         </Typography>
 
                         <Grid container spacing={2} justifyContent="center">
-                            <Grid item><StatCard number="21" label="Pins"/></Grid>
-                            <Grid item><StatCard number="238" label="Followers"/></Grid>
-                            <Grid item><StatCard number="101" label="Following"/></Grid>
+                            <Grid item><StatCard number={numberOfPosts} label="Pics"/></Grid>
+                            <Grid item><StatCard number={followers} label="Followers"/></Grid>
+                            <Grid item><StatCard number={following} label="Following"/></Grid>
                         </Grid>
 
                         <Box sx={{mt: 3}}>

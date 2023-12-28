@@ -108,10 +108,7 @@ export default function PinDetail() {
                                                 <Grid item style={{display: 'flex', alignItems: 'center'}}>
                                                     <Avatar sx={{mr: 2}} src={pin?.user?.avatar} alt="Avatar"/>
                                                     <div>
-                                                        <Typography variant="h6">{pin?.user?.name}</Typography>
-                                                        <Typography
-                                                            variant="body2">{pin?.user?.followers} followers
-                                                        </Typography>
+                                                        <Typography variant="h6">{pin?.dataResponseUser?.fullName}</Typography>
                                                     </div>
                                                 </Grid>
                                                 <Grid item>
@@ -125,20 +122,20 @@ export default function PinDetail() {
                                                 Comments
                                             </Typography>
 
-                                            <PinCommentList image={pin}/>
+                                            <PinCommentList items={pin.dataResponseComments}/>
                                         </div>
 
                                         <div>
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Typography variant="h6">
-                                                    {pin?.comments?.length} comments
+                                                    {pin?.numberOfComments} comments
                                                 </Typography>
                                                 <Button
                                                     size="small"
                                                     color="inherit"
                                                     startIcon={<Iconify icon='icon-park-solid:like' />}
                                                 >
-                                                    {pin?.like}
+                                                    {pin?.numberOfLikes}
                                                 </Button>
 
                                             </div>

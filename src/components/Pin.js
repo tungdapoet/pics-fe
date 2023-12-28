@@ -6,22 +6,19 @@ import createAvatar from "../utils/createAvatar";
 import {PATH_DASHBOARD} from "../routes/paths";
 
 Pin.propTypes = {
+    userId: PropTypes.number,
+    id: PropTypes.number,
     title: PropTypes.string,
     author: PropTypes.string,
     image: PropTypes.any
 };
 
-export default function Pin({ title, author, image }) {
+export default function Pin({userId, id, title, author, image }) {
 
     const navigate = useNavigate();
-    const handleClick = () => {
-        console.log('hello');
-    };
-
-
 
     return (
-        <Card sx={{ maxWidth: 345, boxShadow: 3, cursor: 'pointer' }} onClick={handleClick}>
+        <Card sx={{ maxWidth: 345, boxShadow: 3, cursor: 'pointer' }}>
             <CardMedia
                 component="img"
                 image={image}
@@ -31,7 +28,7 @@ export default function Pin({ title, author, image }) {
                     height: 'auto',
                     objectFit: 'contain'
                 }}
-                onClick={() => navigate(PATH_DASHBOARD.general.pin.detail)}
+                onClick={() => navigate(`${PATH_DASHBOARD.general.pin.detail}/${id}`)}
             />
             <CardContent sx={{ textAlign: 'left' }}>
                 <Typography gutterBottom variant="h5" component="div">
@@ -39,7 +36,7 @@ export default function Pin({ title, author, image }) {
                 </Typography>
 
                 <Stack
-                    onClick={() => navigate(PATH_DASHBOARD.general.profile.user)}
+                    onClick={() => navigate(`${PATH_DASHBOARD.general.profile.user}/${userId}`)}
                     direction="row" alignItems="center" spacing={2}>
                     <Avatar
                         src={author?.photoURL}

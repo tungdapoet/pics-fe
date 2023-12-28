@@ -19,8 +19,6 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
 import useSettings from '../../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
-// _mock_
-import { _userList } from '../../../_mock';
 // components
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
@@ -70,7 +68,7 @@ export default function ManageUser() {
 
     const navigate = useNavigate();
 
-    const [tableData, setTableData] = useState(_userList);
+    const [tableData, setTableData] = useState([]);
 
     const [filterName, setFilterName] = useState('');
 

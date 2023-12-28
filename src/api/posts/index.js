@@ -8,7 +8,7 @@ export const createComment = (body) => post(`/post/CreateComment`, body)
 
 export const getAllPost = (params) => get(`/post/GetAllPost`, params)
 
-export const getPostByUser = (params) => get(`/post/GetPostByUser`, params)
+export const getPostByUser = (id, params) => get(`/post/GetPostByUser/${id}`, params)
 
 export const sharePost = (id) => post(`/post/SharePost/${id}`, null)
 
