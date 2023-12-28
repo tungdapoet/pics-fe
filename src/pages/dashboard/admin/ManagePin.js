@@ -39,6 +39,8 @@ import {
 // sections
 import PinTableRow from "../../../sections/@dashboard/pins/PinTableRow";
 import PinTableToolbar from "../../../sections/@dashboard/pins/PinToolBar";
+import {getAllPost} from "../../../api/posts";
+import {UserTableRow} from "../../../sections/@dashboard/user/list";
 
 
 // ----------------------------------------------------------------------
@@ -60,11 +62,6 @@ export default function ManagePin() {
         rowsPerPage,
         setPage,
         //
-        selected,
-        setSelected,
-        onSelectRow,
-        onSelectAllRows,
-        //
         onSort,
         onChangePage,
         onChangeRowsPerPage,
@@ -76,23 +73,23 @@ export default function ManagePin() {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
-    const { products, isLoading } = useSelector((state) => state.product);
-
     const [tableData, setTableData] = useState([]);
 
     const [filterName, setFilterName] = useState('');
 
-    useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
+    const fetchDataOnInit = () => {
+        getAllPost({
+            pageNumber: page + 1,
+            pageSize: rowsPerPage
+        }).then((res) => {
+            console.log(res.data)
+            setTableData(res.data)
+        })
+    }
 
     useEffect(() => {
-        if (products.length) {
-            setTableData(products);
-        }
-    }, [products]);
+        fetchDataOnInit()
+    }, []);
 
     const handleFilterName = (filterName) => {
         setFilterName(filterName);
@@ -101,14 +98,7 @@ export default function ManagePin() {
 
     const handleDeleteRow = (id) => {
         const deleteRow = tableData.filter((row) => row.id !== id);
-        setSelected([]);
         setTableData(deleteRow);
-    };
-
-    const handleDeleteRows = (selected) => {
-        const deleteRows = tableData.filter((row) => !selected.includes(row.id));
-        setSelected([]);
-        setTableData(deleteRows);
     };
 
     const handleEditRow = (id) => {
@@ -121,35 +111,16 @@ export default function ManagePin() {
         filterName,
     });
 
-    const isNotFound = (!dataFiltered.length && !!filterName) || (!isLoading && !dataFiltered.length);
+    const isNotFound = (!dataFiltered.length && !!filterName);
 
     return (
-        <Page title="Ecommerce: Product List">
+        <Page title="Manage Pics">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Card>
                     <PinTableToolbar filterName={filterName} onFilterName={handleFilterName} />
 
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 800 }}>
-                            {selected.length > 0 && (
-                                <TableSelectedActions
-                                    numSelected={selected.length}
-                                    rowCount={tableData.length}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
-                                    actions={
-                                        <Tooltip title="Delete">
-                                            <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                                                <Iconify icon={'eva:trash-2-outline'} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    }
-                                />
-                            )}
 
                             <Table>
                                 <TableHeadCustom
@@ -157,33 +128,18 @@ export default function ManagePin() {
                                     orderBy={orderBy}
                                     headLabel={TABLE_HEAD}
                                     rowCount={tableData.length}
-                                    numSelected={selected.length}
                                     onSort={onSort}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
                                 />
 
                                 <TableBody>
-                                    {(isLoading ? [...Array(rowsPerPage)] : dataFiltered)
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row, index) =>
-                                            row ? (
-                                                <PinTableRow
-                                                    key={row.id}
-                                                    row={row}
-                                                    selected={selected.includes(row.id)}
-                                                    onSelectRow={() => onSelectRow(row.id)}
-                                                    onDeleteRow={() => handleDeleteRow(row.id)}
-                                                    onEditRow={() => handleEditRow(row.name)}
-                                                />
-                                            ) : (
-                                                !isNotFound && <TableSkeleton key={index} />
-                                            )
-                                        )}
+                                    {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                                        <PinTableRow
+                                            key={row.id}
+                                            row={row}
+                                            onDeleteRow={() => handleDeleteRow(row.id)}
+                                            onEditRow={() => handleEditRow(row.name)}
+                                        />
+                                    ))}
 
                                     <TableEmptyRows emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 

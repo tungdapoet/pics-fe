@@ -23,7 +23,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Profile',
-    linkTo: PATH_DASHBOARD.general.profile.user,
+    linkTo: PATH_DASHBOARD.general.profile.detail,
   },
   {
     label: 'Settings',

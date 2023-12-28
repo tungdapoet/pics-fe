@@ -2,7 +2,7 @@ import {useContext} from "react";
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Button, Link, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 // layouts
 import LogoOnlyLayout from '../../layouts/LogoOnlyLayout';
 // routes
@@ -26,7 +26,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function VerifyCode() {
-  const { method } = useContext(AuthContext);
+  const { method, user } = useContext(AuthContext);
+  console.log(method, user)
   return (
     <Page title="Verify" sx={{ height: 1 }}>
       <RootStyle>

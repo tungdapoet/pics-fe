@@ -1,5 +1,6 @@
-import {NavLink as RouterLink, useParams} from 'react-router-dom';
+import {NavLink as RouterLink, useNavigate, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
+import {useSnackbar} from "notistack";
 // @mui
 import {
     Box,
@@ -12,9 +13,6 @@ import {
     Avatar,
     Button, TextField, IconButton, MenuItem, Stack
 } from '@mui/material';
-// redux
-import {useDispatch, useSelector} from '../../../redux/store';
-import {getPin} from '../../../redux/slices/pin';
 // routes
 // hooks
 import useSettings from '../../../hooks/useSettings';
@@ -26,33 +24,40 @@ import { PageNotFoundIllustration } from "../../../assets";
 import MenuPopover from "../../../components/MenuPopover";
 import PinReportForm from "../../../sections/@dashboard/pins/PinReportForm";
 import {DialogAnimate} from "../../../components/animate";
-import {getPostById} from "../../../api/posts";
+import {getPostById, sharePost} from "../../../api/posts";
+import {PATH_DASHBOARD} from "../../../routes/paths";
+
 
 
 export default function PinDetail() {
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
     const {id} = useParams();
     const {themeStretch} = useSettings();
-    const dispatch = useDispatch();
     const {name = ''} = useParams();
     const [pin, setPin] = useState({})
     const [isOpenReportForm, setIsOpenReportForm] = useState(false);
 
     useEffect(async () => {
-        const res = await getPostById(id);
-        setPin(res.data)
+        getPostById(id).then((res) => {
+            setPin(res.data)
+        })
     }, []);
 
     const handleSubmitReport = () => {
         setIsOpenReportForm(false)
     }
 
+    const handleSharePic = () => {
+        sharePost(id).then((res) => {
+            enqueueSnackbar(res.message);
+            navigate(PATH_DASHBOARD.root);
+        })
+    }
+
     const handleOpenReportForm = () => {
         setIsOpenReportForm(true)
     }
-
-    useEffect(() => {
-        dispatch(getPin(name));
-    }, [dispatch, name]);
 
 
     return (
@@ -84,7 +89,7 @@ export default function PinDetail() {
                                             >
                                                 <div>
                                                     <MoreMenuButton handleClickReport={handleOpenReportForm}/>
-                                                    <IconButton>
+                                                    <IconButton onClick={handleSharePic}>
                                                         <Iconify icon={'material-symbols:upload'} width={24} height={24} />
                                                     </IconButton>
                                                     <IconButton>
@@ -168,7 +173,7 @@ export default function PinDetail() {
                 )}
             </Container>
             <DialogAnimate open={isOpenReportForm} title="Report Pin">
-                    <PinReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
+                    <PinReportForm id={pin?.id} onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
             </DialogAnimate>
         </Page>
     );

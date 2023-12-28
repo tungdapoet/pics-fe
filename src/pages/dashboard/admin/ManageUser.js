@@ -21,9 +21,8 @@ import useSettings from '../../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
 // components
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
-import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../../../components/table';
+import { TableEmptyRows, TableHeadCustom, TableNoData } from '../../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
 import {deleteUser, getAllUser} from "../../../api/user";
@@ -32,16 +31,16 @@ import {deleteUser, getAllUser} from "../../../api/user";
 
 const ROLE_OPTIONS = [
     'all',
-    'user',
-    'admin'
+    'Người dùng',
+    'Quản trị viên'
 ];
 
 const TABLE_HEAD = [
-    { id: 'fullName', label: 'Full name', align: 'left' },
-    { id: 'roleName', label: 'Role', align: 'left' },
-    { id: 'email', label: 'Email', align: 'left' },
-    { id: 'userStatusName', label: 'Status', align: 'left' },
-    { id: '', label: 'Action', align: 'center' },
+    { id: 'fullName', label: 'Full name', align: 'center' },
+    { id: 'roleName', label: 'Role', align: 'center' },
+    { id: 'email', label: 'Email', align: 'center' },
+    { id: 'userStatusName', label: 'Status', align: 'center' },
+    { id: '', label: 'Action', align: 'right' },
 ];
 
 // ----------------------------------------------------------------------
@@ -53,11 +52,6 @@ export default function ManageUser() {
         orderBy,
         rowsPerPage,
         setPage,
-        //
-        selected,
-        setSelected,
-        onSelectRow,
-        onSelectAllRows,
         //
         onSort,
         onChangePage,
@@ -74,13 +68,17 @@ export default function ManageUser() {
 
     const [filterRole, setFilterRole] = useState('all');
 
-    useEffect(async () => {
-        const res = await getAllUser({
+    const fetchDataOnInit = async () => {
+        getAllUser({
             pageNumber: page + 1,
             pageSize: rowsPerPage
+        }).then((res) => {
+            setTableData(res.data)
         });
-        console.log(res)
-        setTableData(res.data)
+    }
+
+    useEffect(async () => {
+        fetchDataOnInit()
     }, []);
 
     const handleFilterName = (filterName) => {
@@ -95,12 +93,6 @@ export default function ManageUser() {
     const handleDeleteRow = async (id) => {
         const res = await deleteUser(id);
         navigate(0)
-    };
-
-    const handleDeleteRows = (selected) => {
-        const deleteRows = tableData.filter((row) => !selected.includes(row.id));
-        setSelected([]);
-        setTableData(deleteRows);
     };
 
     const handleEditRow = (id) => {
@@ -119,7 +111,7 @@ export default function ManageUser() {
         (!dataFiltered.length && !!filterRole)
 
     return (
-        <Page title="User: List">
+        <Page title="Manage Users">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Card>
                     <Divider />
@@ -134,40 +126,13 @@ export default function ManageUser() {
 
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
-                            {selected.length > 0 && (
-                                <TableSelectedActions
-                                    numSelected={selected.length}
-                                    rowCount={tableData.length}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
-                                    actions={
-                                        <Tooltip title="Delete">
-                                            <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                                                <Iconify icon={'eva:trash-2-outline'} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    }
-                                />
-                            )}
-
                             <Table>
                                 <TableHeadCustom
                                     order={order}
                                     orderBy={orderBy}
                                     headLabel={TABLE_HEAD}
-                                    rowCount={tableData.length}
-                                    numSelected={selected.length}
                                     onSort={onSort}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
+
                                 />
 
                                 <TableBody>
@@ -175,8 +140,6 @@ export default function ManageUser() {
                                         <UserTableRow
                                             key={row.id}
                                             row={row}
-                                            selected={selected.includes(row.id)}
-                                            onSelectRow={() => onSelectRow(row.id)}
                                             onDeleteRow={() => handleDeleteRow(row.id)}
                                             onEditRow={() => handleEditRow(row.name)}
                                         />

@@ -62,36 +62,6 @@ export default function UserProfile() {
         setIsOpenReportForm(true)
     }
 
-
-    // const items = [
-    //     {
-    //         title: 'Image Title 1',
-    //         author: 'Author Name 1',
-    //         image: 'https://picsum.photos/720/1080',
-    //     },
-    //     {
-    //         title: 'Image Title 2',
-    //         author: 'Author Name 2',
-    //         image: 'https://picsum.photos/1080/1920',
-    //     },
-    //     {
-    //         title: 'Image Title 3',
-    //         author: 'Author Name 3',
-    //         image: 'https://picsum.photos/1440/2560',
-    //     },
-    //     {
-    //         title: 'Image Title 4',
-    //         author: 'Author Name 4',
-    //         image: 'https://picsum.photos/1080/1920',
-    //     },
-    //     {
-    //         title: 'Image Title 5',
-    //         author: 'Author Name 5',
-    //         image: 'https://picsum.photos/1080/1920',
-    //     },
-    //     // Add more items as needed
-    // ];
-
     return (
         <Page title="Profile">
             <Container maxWidth={themeStretch ? false : 'xl'}>

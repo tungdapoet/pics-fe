@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import {useSnackbar} from 'notistack';
 import {useCallback} from 'react';
+import {useNavigate} from "react-router-dom";
 // form
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -14,25 +15,27 @@ import {fData} from '../../../utils/formatNumber';
 // _mock
 // components
 import {FormProvider, RHFTextField, RHFUploadAvatar} from '../../../components/hook-form';
+import {updateUser} from "../../../api/user";
+import {PATH_DASHBOARD} from "../../../routes/paths";
+import {changePassword} from "../../../api/auth";
 
 // ----------------------------------------------------------------------
 
 export default function Home() {
     const {enqueueSnackbar} = useSnackbar();
+    const navigate = useNavigate();
 
     const {user} = useAuth();
 
     const UpdateUserSchema = Yup.object().shape({
-        firstName: Yup.string().required('First name is required'),
-        lastName: Yup.string().required('Last name is required'),
+        fullName: Yup.string().required('Full name is required'),
         userName: Yup.string().required('User name is required'),
         email: Yup.string().required('email is required'),
     });
 
     const profileDefaultValues = {
-        photoURL: user?.photoURL || '',
-        firstName: user?.firstName || '',
-        lastName: user?.lastName || '',
+        avatarUrl: user?.avatarUrl || '',
+        fullName: user?.fullName || '',
         userName: user?.userName || '',
         email: user?.email || '',
         title: user?.title || '',
@@ -45,31 +48,33 @@ export default function Home() {
 
 
     const {
+        getValues: getProfileValue,
         setValue: setProfileValue,
         handleSubmit: handleProfileSubmit,
         formState: {isSubmitting: isProfileSubmitting},
     } = profileMethods;
 
     const onSubmitUserInfo = async () => {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
+        const form = getProfileValue();
+        updateUser(form).then(() => {
             enqueueSnackbar('Update user info success!');
-        } catch (error) {
-            console.error(error);
-        }
+            navigate(PATH_DASHBOARD.root, {replace: true})
+        }).catch((err) => {
+            enqueueSnackbar(err.toString(), {variant: 'error'});
+        });
     };
 
     const UpdatePasswordSchema = Yup.object().shape({
-        currentPassword: Yup.string().required('Current password is required'),
+        oldPassword: Yup.string().required('Current password is required'),
         newPassword: Yup.string().required('New password is required'),
-        confirmPassword: Yup.string().required('Confirm password is required'),
+        confirmNewPassword: Yup.string().required('Confirm password is required'),
 
     });
 
     const passwordDefaultValues = {
-        currentPassword: user?.currentPassword || '',
+        oldPassword: user?.oldPassword || '',
         newPassword: user?.newPassword || '',
-        confirmPassword: user?.confirmPassword || '',
+        confirmNewPassword: user?.confirmNewPassword || '',
     };
 
     const passwordMethods = useForm({
@@ -78,18 +83,19 @@ export default function Home() {
     });
 
     const {
-        setValue: setPasswordValue,
+        getValues: getPasswordValue,
         handleSubmit: handlePasswordSubmit,
         formState: {isSubmitting: isPasswordSubmitting},
     } = passwordMethods;
 
     const onSubmitPassword = async () => {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
+        const form = getPasswordValue();
+        changePassword(form).then(() => {
             enqueueSnackbar('Update password success!');
-        } catch (error) {
-            console.error(error);
-        }
+            navigate(PATH_DASHBOARD.root, {replace: true})
+        }).catch((err) => {
+            enqueueSnackbar(err.toString(), {variant: 'error'});
+        });
     };
 
     const handleDrop = useCallback(
@@ -98,7 +104,7 @@ export default function Home() {
 
             if (file) {
                 setProfileValue(
-                    'photoURL',
+                    'avatarUrl',
                     Object.assign(file, {
                         preview: URL.createObjectURL(file),
                     })
@@ -115,7 +121,7 @@ export default function Home() {
                     <Grid item xs={12} md={4}>
                         <Card sx={{py: 10, px: 3, textAlign: 'center'}}>
                             <RHFUploadAvatar
-                                name="photoURL"
+                                name="avatarUrl"
                                 accept="image/*"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
@@ -149,9 +155,8 @@ export default function Home() {
                             >
                                 <div>
                                     <Typography sx={{fontSize: 'default', m: 1}}>Full name</Typography>
-                                    <div style={{display: 'grid', rowGap: 2, gap: 5, gridTemplateColumns: '1fr 1fr'}}>
-                                        <RHFTextField name="firstName" label="First name"/>
-                                        <RHFTextField name="lastName" label="Last name"/>
+                                    <div>
+                                        <RHFTextField name="fullName" label="Full name"/>
                                     </div>
                                 </div>
 
@@ -194,7 +199,7 @@ export default function Home() {
                                     <Typography sx={{fontSize: 24, fontWeight: 600, mb: 5}}>Change password</Typography>
                                     <div>
                                         <Typography sx={{fontSize: 'default', m: 1}}>Current password</Typography>
-                                        <RHFTextField type="password" name="currentPassword" label="Current password"/>
+                                        <RHFTextField type="password" name="oldPassword" label="Current password"/>
                                     </div>
                                     <div>
                                         <Typography sx={{fontSize: 'default', m: 1}}>New password</Typography>
@@ -202,7 +207,7 @@ export default function Home() {
                                     </div>
                                     <div>
                                         <Typography sx={{fontSize: 'default', m: 1}}>Confirm password</Typography>
-                                        <RHFTextField type="password" name="confirmPassword" label="Confirm password"/>
+                                        <RHFTextField type="password" name="confirmNewPassword" label="Confirm password"/>
                                     </div>
                                 </Box>
                                 <Stack spacing={3} alignItems="flex-start" sx={{mt: 3}}>

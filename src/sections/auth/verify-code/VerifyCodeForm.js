@@ -9,7 +9,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { OutlinedInput, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import {PATH_AUTH} from '../../../routes/paths';
+import {confirmCreateNewAccount} from "../../../api/auth";
 
 // ----------------------------------------------------------------------
 
@@ -57,12 +58,11 @@ export default function VerifyCodeForm() {
 
   const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      console.log('code:', Object.values(data).join(''));
+      await confirmCreateNewAccount({confirmCode: Object.values(data).join('')})
 
       enqueueSnackbar('Verify success!');
 
-      navigate(PATH_DASHBOARD.root, { replace: true });
+      navigate(PATH_AUTH.login, { replace: true });
     } catch (error) {
       console.error(error);
     }

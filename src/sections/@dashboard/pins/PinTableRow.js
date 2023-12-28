@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 // @mui
-import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
+import { TableRow, TableCell, Typography, MenuItem } from '@mui/material';
 // components
 import Image from '../../../components/Image';
 import Iconify from '../../../components/Iconify';
@@ -13,14 +13,12 @@ import { TableMoreMenu } from '../../../components/table';
 PinTableRow.propTypes = {
     row: PropTypes.object,
     selected: PropTypes.bool,
-    onEditRow: PropTypes.func,
-    onSelectRow: PropTypes.func,
     onDeleteRow: PropTypes.func,
 };
 
-export default function PinTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function PinTableRow({ row, selected, onDeleteRow }) {
 
-    const { name, cover } = row;
+    const { title, description, dataResponseUser, imageUrl } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -34,20 +32,17 @@ export default function PinTableRow({ row, selected, onSelectRow, onDeleteRow })
 
     return (
         <TableRow hover selected={selected}>
-            <TableCell padding="checkbox">
-                <Checkbox checked={selected} onClick={onSelectRow} />
-            </TableCell>
 
             <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-                <Image disabledEffect alt={name} src={cover} sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }} />
+                <Image disabledEffect alt={title} src={imageUrl} sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }} />
                 <Typography variant="subtitle2" noWrap>
-                    {name}
+                    {title}
                 </Typography>
             </TableCell>
 
-            <TableCell align="left">{name}</TableCell>
+            <TableCell align="left">{description}</TableCell>
 
-            <TableCell>{name}</TableCell>
+            <TableCell>{dataResponseUser.fullName}</TableCell>
 
             <TableCell align="right">
                 <TableMoreMenu
@@ -73,3 +68,4 @@ export default function PinTableRow({ row, selected, onSelectRow, onDeleteRow })
         </TableRow>
     );
 }
+//-----------------------------------------------------

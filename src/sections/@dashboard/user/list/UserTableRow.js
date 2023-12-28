@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 // @mui
-import { Avatar, Checkbox, TableRow, TableCell, Typography, MenuItem } from '@mui/material';
+import { Avatar, TableRow, TableCell, Typography, MenuItem } from '@mui/material';
 // components
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
@@ -10,12 +10,10 @@ import { TableMoreMenu } from '../../../../components/table';
 
 UserTableRow.propTypes = {
   row: PropTypes.object,
-  selected: PropTypes.bool,
-  onSelectRow: PropTypes.func,
   onDeleteRow: PropTypes.func,
 };
 
-export default function UserTableRow({ row, selected, onSelectRow, onDeleteRow }) {
+export default function UserTableRow({ row, onDeleteRow }) {
 
   const { fullName, roleName, email, avatarUrl, userStatusName } = row;
 
@@ -30,21 +28,18 @@ export default function UserTableRow({ row, selected, onSelectRow, onDeleteRow }
   };
 
   return (
-    <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox checked={selected} onClick={onSelectRow} />
-      </TableCell>
+    <TableRow>
 
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+      <TableCell align="center" sx={{ display: 'flex', alignItems: 'center' }} >
         <Avatar alt={fullName} src={avatarUrl} sx={{ mr: 2 }} />
         <Typography variant="subtitle2" noWrap>
           {fullName}
         </Typography>
       </TableCell>
 
-      <TableCell align="left">{roleName}</TableCell>
+      <TableCell align="center">{roleName}</TableCell>
 
-      <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+      <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
         {email}
       </TableCell>
 

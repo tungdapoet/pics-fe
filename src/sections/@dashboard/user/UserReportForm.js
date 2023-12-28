@@ -29,46 +29,55 @@ export default function UserReportForm({id, onClose, callback}){
 
     const { enqueueSnackbar } = useSnackbar();
 
-
-
-    const NewBlogSchema = Yup.object().shape({
-        title: Yup.string().required('Title is required'),
-        description: Yup.string().required('Description is required'),
-        content: Yup.string().min(1000).required('Content is required'),
-        cover: Yup.mixed().required('Cover is required'),
-    });
+    const UserReportSchema = Yup.object().shape({
+        isSpam: Yup.boolean(),
+        isSexualized: Yup.boolean(),
+        isSelfHarm: Yup.boolean(),
+        isDangerous: Yup.boolean(),
+        isHarassment: Yup.boolean(),
+        isPrivacy: Yup.boolean(),
+        isIntellectual: Yup.boolean(),
+    }).test(
+        'at-least-one-true',
+        'You must report at least one issue',
+        (value) => Object.values(value).some(Boolean) // Checks if at least one value is true
+    );
 
     const defaultValues = {
-        title: '',
-        description: '',
-        content: '',
-        cover: null,
-        tags: ['Logan'],
-        publish: true,
-        comments: true,
-        metaTitle: '',
-        metaDescription: '',
-        metaKeywords: ['Logan'],
+        isSpam: false,
+        isSexualized: false,
+        isSelfHarm: false,
+        isDangerous: false,
+        isHarassment: false,
+        isPrivacy: false,
+        isIntellectual: false,
     };
 
     const methods = useForm({
-        resolver: yupResolver(NewBlogSchema),
+        resolver: yupResolver(UserReportSchema),
         defaultValues,
     });
 
     const {
-        reset,
-        watch,
-        control,
-        setValue,
+        getValues,
         handleSubmit,
-        formState: { isSubmitting, isValid },
+        formState: { isSubmitting },
     } = methods;
 
-    const values = watch();
+    function getReportReasons(values) {
+        const trueValues = Object.entries(values)
+            .filter(([key, value]) => value)
+            .map(([key]) => key)
+            .map((key) => key.replace(/^is/, ''))
+            .map((key) => key.charAt(0).toUpperCase() + key.slice(1))
+            .join(', ');
+
+        return trueValues;
+    }
 
     const onSubmit = async () => {
-        console.log("hello")
+        const form = getValues();
+        console.log(getReportReasons(form))
     }
 
     return (
