@@ -36,17 +36,16 @@ export async function get(url, params, config = {}) {
     return await axiosApi.get(url, {params, ...config}).then(response => response.data)
 }
 
-// export async function getBlob(url, config = {}) {
-//     // eslint-disable-next-line no-return-await
-//     return await axiosApi.get(url, {...config}).then(response => response)
-// }
+export async function getBlob(url, config = {}) {
+    // eslint-disable-next-line no-return-await
+    return await axiosApi.get(url, {...config}).then(response => response)
+}
 
 export async function post(
     url,
     data,
     config = {}
 ) {
-    console.log("axios", data)
     return axiosApi.post(url, data, {...config}).then(response => response.data)
 }
 
@@ -55,7 +54,6 @@ export async function postMultipart(
     data,
     config = {}
 ) {
-    console.log("axios", data)
     return axiosApi.post(url, data, {
         headers: {
             "Content-Type": "multipart/form-data",

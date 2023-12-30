@@ -1,6 +1,6 @@
-import {get, post, put} from '../../helpers/api_helpers'
+import {get, post, put, postMultipart} from '../../helpers/api_helpers'
 
-export const createPost = (body) => post(`/post/CreatePost`, body)
+export const createPost = (body) => postMultipart(`/post/CreatePost`, body)
 
 export const updatePost = (body) => put(`/post/UpdatePost`, body)
 

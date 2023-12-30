@@ -13,7 +13,7 @@ export default function CreatePin() {
     const { themeStretch } = useSettings();
 
     return (
-        <Page title="Blog: New Post">
+        <Page title="Create Pic">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Typography variant="h3" component="h1" paragraph>
                     Create a Pic

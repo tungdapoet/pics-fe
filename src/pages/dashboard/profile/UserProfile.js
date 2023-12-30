@@ -124,7 +124,7 @@ export default function UserProfile() {
                 }
             </Container>
             <DialogAnimate open={isOpenReportForm} title="Report User">
-                <UserReportForm onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
+                <UserReportForm id={id} onClose={() => setIsOpenReportForm(false)} callback={handleSubmitReport}/>
             </DialogAnimate>
         </Page>
     );

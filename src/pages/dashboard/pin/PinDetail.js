@@ -61,7 +61,7 @@ export default function PinDetail() {
 
 
     return (
-        <Page title="Image Details">
+        <Page title="Pic Detail">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 {pin ? (
                     <>

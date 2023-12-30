@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import PropTypes from "prop-types";
 import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
-import { useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,6 +15,7 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import {FormProvider, RHFCheckbox} from '../../../components/hook-form';
 import Scrollbar from "../../../components/Scrollbar";
+import {createReportUser} from "../../../api/report";
 
 // ----------------------------------------------------------------------
 
@@ -77,7 +78,12 @@ export default function UserReportForm({id, onClose, callback}){
 
     const onSubmit = async () => {
         const form = getValues();
-        console.log(getReportReasons(form))
+        createReportUser({userReportedId: id, reason: getReportReasons(form)}).then(() => {
+            enqueueSnackbar('Report successful!');
+            navigate(PATH_DASHBOARD.root, {replace: true});
+        }).catch((err) => {
+            enqueueSnackbar(`Unable to report: ${err}`, { variant: 'error' });
+        })
     }
 
     return (

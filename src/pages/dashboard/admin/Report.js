@@ -125,7 +125,7 @@ export default function Report() {
     const isNotFound = (!dataFiltered.length && !!filterName) || (!isLoading && !dataFiltered.length);
 
     return (
-        <Page title="Ecommerce: Product List">
+        <Page title="Manage Reports">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Card>
                     <ReportToolBar filterName={filterName} onFilterName={handleFilterName} />

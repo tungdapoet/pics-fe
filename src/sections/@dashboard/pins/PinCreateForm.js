@@ -29,7 +29,7 @@ export default function PinCreateForm(){
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 
-    const NewBlogSchema = Yup.object().shape({
+    const NewPicSchema = Yup.object().shape({
         title: Yup.string().required('Title is required'),
         description: Yup.string().required('Description is required'),
         imageUrl: Yup.mixed().required('Image is required')
@@ -42,7 +42,7 @@ export default function PinCreateForm(){
     };
 
     const methods = useForm({
-        resolver: yupResolver(NewBlogSchema),
+        resolver: yupResolver(NewPicSchema),
         defaultValues,
     });
 
@@ -53,9 +53,16 @@ export default function PinCreateForm(){
         formState: { isSubmitting },
     } = methods;
 
+
     const onSubmit = async () => {
         const form = getValues();
-        createPost(form).then(() => {
+        console.log(form)
+        const picData = new FormData();
+        picData.append('title',form.title);
+        picData.append('imageUrl', form.imageUrl)
+        picData.append('description', form.description)
+        console.log(picData)
+        createPost(picData).then(() => {
             enqueueSnackbar('Post success!');
             navigate(PATH_DASHBOARD.root, {replace: true})
         }).catch((err) => {
@@ -67,6 +74,7 @@ export default function PinCreateForm(){
         (acceptedFiles) => {
             const file = acceptedFiles[0];
 
+            console.log(file);
             if (file) {
                 setValue(
                     'imageUrl',

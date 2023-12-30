@@ -38,7 +38,6 @@ export default function Home() {
         fullName: user?.fullName || '',
         userName: user?.userName || '',
         email: user?.email || '',
-        title: user?.title || '',
     };
 
     const profileMethods = useForm({
@@ -56,7 +55,14 @@ export default function Home() {
 
     const onSubmitUserInfo = async () => {
         const form = getProfileValue();
-        updateUser(form).then(() => {
+        console.log(form)
+        const profileFormData = new FormData();
+        profileFormData.append('avatarUrl',form.avatarUrl);
+        profileFormData.append('fullName', form.fullName);
+        profileFormData.append('email', form.email);
+        profileFormData.append('userName', form.userName);
+        console.log(profileFormData)
+        updateUser(profileFormData).then(() => {
             enqueueSnackbar('Update user info success!');
             navigate(PATH_DASHBOARD.root, {replace: true})
         }).catch((err) => {
@@ -168,11 +174,6 @@ export default function Home() {
                                 <div>
                                     <Typography sx={{fontSize: 'default', m: 1}}>Email</Typography>
                                     <RHFTextField disabled name="email" label="Email"/>
-                                </div>
-
-                                <div>
-                                    <Typography sx={{fontSize: 'default', m: 1}}>Title</Typography>
-                                    <RHFTextField name="title" label="Title"/>
                                 </div>
                             </Box>
 
