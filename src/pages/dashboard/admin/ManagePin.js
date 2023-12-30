@@ -17,6 +17,7 @@ import {
     FormControlLabel,
 } from '@mui/material';
 // redux
+import {useSnackbar} from "notistack";
 import { useDispatch, useSelector } from '../../../redux/store';
 import { getProducts } from '../../../redux/slices/product';
 // routes
@@ -39,7 +40,7 @@ import {
 // sections
 import PinTableRow from "../../../sections/@dashboard/pins/PinTableRow";
 import PinTableToolbar from "../../../sections/@dashboard/pins/PinToolBar";
-import {getAllPost, getPostByTitle} from "../../../api/posts";
+import {deletePost, getAllPost, getPostByTitle} from "../../../api/posts";
 import {UserTableRow} from "../../../sections/@dashboard/user/list";
 
 
@@ -63,6 +64,8 @@ export default function ManagePin() {
         onChangePage,
         onChangeRowsPerPage,
     } = useTable();
+
+    const {enqueueSnackbar} = useSnackbar();
 
     const { themeStretch } = useSettings();
 
@@ -100,9 +103,14 @@ export default function ManagePin() {
         setPage(0);
     };
 
-    const handleDeleteRow = (id) => {
-        const deleteRow = tableData.filter((row) => row.id !== id);
-        setTableData(deleteRow);
+    const handleDeleteRow = async (id) => {
+        try {
+            await deletePost(id);
+            enqueueSnackbar('Delete post success');
+            navigate(0);
+        } catch (e) {
+            enqueueSnackbar('Delete post error', {variant: 'error'});
+        }
     };
 
     const handleEditRow = (id) => {
