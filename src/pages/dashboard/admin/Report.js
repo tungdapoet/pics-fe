@@ -1,210 +1,91 @@
-import { paramCase } from 'change-case';
+import { format } from 'date-fns';
 import { useState, useEffect } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
 // @mui
 import {
-    Box,
     Card,
     Table,
-    Button,
-    Switch,
-    Tooltip,
     TableBody,
     Container,
-    IconButton,
     TableContainer,
-    TablePagination,
-    FormControlLabel,
+    TableCell, TableRow, TableHead,
 } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../../redux/store';
-import { getProducts } from '../../../redux/slices/product';
-// routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
-// hooks
+
 import useSettings from '../../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
-// components
+
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 
-import {
-    TableNoData,
-    TableSkeleton,
-    TableEmptyRows,
-    TableHeadCustom,
-    TableSelectedActions,
-} from '../../../components/table';
-// sections
-import ReportToolBar from "../../../sections/@dashboard/report/ReportToolBar";
-import ReportTableRow from "../../../sections/@dashboard/report/ReportTableRow";
+import {getAllReport} from "../../../api/report";
 
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'Post Name', align: 'left' },
-    { id: 'createdBy', label: 'Posted by', align: 'left' },
-    { id: 'reason', label: 'Reason', align: 'left' },
-    { id: 'createdAt', label: 'Created at', align: 'left' },
-    { id: '' },
+    { id: 'userReportedName', label: 'Reported', align: 'center' },
+    { id: 'userReportName', label: 'Report', align: 'center' },
+    { id: 'reason', label: 'Reason', align: 'center' },
+    { id: 'createAt', label: 'Created At', align: 'center' },
+    { id: 'reportType', label: 'Report type', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
 
+const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return format(date, 'dd/MM/yyyy');
+};
+
 export default function Report() {
-    const {
-        page,
-        order,
-        orderBy,
-        rowsPerPage,
-        setPage,
-        //
-        selected,
-        setSelected,
-        onSelectRow,
-        onSelectAllRows,
-        //
-        onSort,
-        onChangePage,
-        onChangeRowsPerPage,
-    } = useTable({
-        defaultOrderBy: 'createdAt',
-    });
 
     const { themeStretch } = useSettings();
 
-    const navigate = useNavigate();
-
-    const dispatch = useDispatch();
-
-    const { products, isLoading } = useSelector((state) => state.product);
-
     const [tableData, setTableData] = useState([]);
 
-    const [filterName, setFilterName] = useState('');
 
-    useEffect(() => {
-        dispatch(getProducts());
-    }, [dispatch]);
+    useEffect(async () => {
+        getAllReport().then((res) => {
+            setTableData(res.data)
+        })
+    }, []);
 
-    useEffect(() => {
-        if (products.length) {
-            setTableData(products);
-        }
-    }, [products]);
 
-    const handleFilterName = (filterName) => {
-        setFilterName(filterName);
-        setPage(0);
-    };
 
-    const handleDeleteRow = (id) => {
-        const deleteRow = tableData.filter((row) => row.id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
-    };
-
-    const handleDeleteRows = (selected) => {
-        const deleteRows = tableData.filter((row) => !selected.includes(row.id));
-        setSelected([]);
-        setTableData(deleteRows);
-    };
-
-    const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.eCommerce.edit(paramCase(id)));
-    };
-
-    const dataFiltered = applySortFilter({
-        tableData,
-        comparator: getComparator(order, orderBy),
-        filterName,
-    });
-
-    const isNotFound = (!dataFiltered.length && !!filterName) || (!isLoading && !dataFiltered.length);
 
     return (
         <Page title="Manage Reports">
             <Container maxWidth={themeStretch ? false : 'lg'}>
                 <Card>
-                    <ReportToolBar filterName={filterName} onFilterName={handleFilterName} />
 
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 800 }}>
-                            {selected.length > 0 && (
-                                <TableSelectedActions
-                                    numSelected={selected.length}
-                                    rowCount={tableData.length}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
-                                    actions={
-                                        <Tooltip title="Delete">
-                                            <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                                                <Iconify icon={'eva:trash-2-outline'} />
-                                            </IconButton>
-                                        </Tooltip>
-                                    }
-                                />
-                            )}
 
                             <Table>
-                                <TableHeadCustom
-                                    order={order}
-                                    orderBy={orderBy}
-                                    headLabel={TABLE_HEAD}
-                                    rowCount={tableData.length}
-                                    numSelected={selected.length}
-                                    onSort={onSort}
-                                    onSelectAllRows={(checked) =>
-                                        onSelectAllRows(
-                                            checked,
-                                            tableData.map((row) => row.id)
-                                        )
-                                    }
-                                />
-
+                                <TableHead>
+                                    <TableRow>
+                                        {TABLE_HEAD.map((header) => (
+                                            <TableCell key={header.id} align={header.align}>
+                                                {header.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
                                 <TableBody>
-                                    {(isLoading ? [...Array(rowsPerPage)] : dataFiltered)
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row, index) =>
-                                            row ? (
-                                                <ReportTableRow
-                                                    key={row.id}
-                                                    row={row}
-                                                    selected={selected.includes(row.id)}
-                                                    onSelectRow={() => onSelectRow(row.id)}
-                                                    onDeleteRow={() => handleDeleteRow(row.id)}
-                                                    onEditRow={() => handleEditRow(row.name)}
-                                                />
-                                            ) : (
-                                                !isNotFound && <TableSkeleton key={index} />
-                                            )
-                                        )}
-
-                                    <TableEmptyRows emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
-
-                                    <TableNoData isNotFound={isNotFound} />
+                                    {/* Render your table rows using data */}
+                                    {/* Example: */}
+                                    {tableData.map((row, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell align="center">{row.userReportedName}</TableCell>
+                                            <TableCell align="center">{row.userReportName}</TableCell>
+                                            <TableCell align="center">{row.reason}</TableCell>
+                                            <TableCell align="center">{formatDate(row.createAt)}</TableCell>
+                                            <TableCell align="center">{row.reportType}</TableCell>
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
                     </Scrollbar>
 
-                    <Box sx={{ position: 'relative' }}>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
-                            component="div"
-                            count={dataFiltered.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={onChangePage}
-                            onRowsPerPageChange={onChangeRowsPerPage}
-                        />
-                    </Box>
                 </Card>
             </Container>
         </Page>
@@ -213,20 +94,3 @@ export default function Report() {
 
 // ----------------------------------------------------------------------
 
-function applySortFilter({ tableData, comparator, filterName }) {
-    const stabilizedThis = tableData.map((el, index) => [el, index]);
-
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-
-    tableData = stabilizedThis.map((el) => el[0]);
-
-    if (filterName) {
-        tableData = tableData.filter((item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
-    }
-
-    return tableData;
-}

@@ -25,15 +25,10 @@ import Scrollbar from '../../../components/Scrollbar';
 import { TableEmptyRows, TableHeadCustom, TableNoData } from '../../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
-import {deleteUser, getAllUser} from "../../../api/user";
+import {deleteUser, getAllUser, getUserByName} from "../../../api/user";
 
 // ----------------------------------------------------------------------
 
-const ROLE_OPTIONS = [
-    'all',
-    'Người dùng',
-    'Quản trị viên'
-];
 
 const TABLE_HEAD = [
     { id: 'fullName', label: 'Full name', align: 'center' },
@@ -53,7 +48,6 @@ export default function ManageUser() {
         rowsPerPage,
         setPage,
         //
-        onSort,
         onChangePage,
         onChangeRowsPerPage,
     } = useTable();
@@ -66,29 +60,38 @@ export default function ManageUser() {
 
     const [filterName, setFilterName] = useState('');
 
-    const [filterRole, setFilterRole] = useState('all');
+    const fetchDataFromServer = async () => {
+        try {
+            if(!filterName) {
+                const response = await getAllUser({
+                    pageNumber: page + 1,
+                    pageSize: rowsPerPage,
+                });
+                setTableData(response.data);
+            } else {
+                const response = await getUserByName({
+                    pageNumber: page + 1,
+                    pageSize: rowsPerPage,
+                    name: filterName,
+                });
+                setTableData(response.data);
+            }
 
-    const fetchDataOnInit = async () => {
-        getAllUser({
-            pageNumber: page + 1,
-            pageSize: rowsPerPage
-        }).then((res) => {
-            setTableData(res.data)
-        });
-    }
+        } catch (error) {
+            // Xử lý lỗi khi gọi API
+            console.error('Error fetching data:', error);
+        }
+    };
 
-    useEffect(async () => {
-        fetchDataOnInit()
-    }, []);
+    useEffect(() => {
+        fetchDataFromServer();
+    }, [filterName, page, rowsPerPage]);
 
     const handleFilterName = (filterName) => {
         setFilterName(filterName);
         setPage(0);
     };
 
-    const handleFilterRole = (event) => {
-        setFilterRole(event.target.value);
-    };
 
     const handleDeleteRow = async (id) => {
         const res = await deleteUser(id);
@@ -99,16 +102,10 @@ export default function ManageUser() {
         navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
     };
 
-    const dataFiltered = applySortFilter({
-        tableData,
-        comparator: getComparator(order, orderBy),
-        filterName,
-        filterRole,
-    });
+
 
     const isNotFound =
-        (!dataFiltered.length && !!filterName) ||
-        (!dataFiltered.length && !!filterRole)
+        (!tableData.length && !!filterName)
 
     return (
         <Page title="Manage Users">
@@ -118,10 +115,7 @@ export default function ManageUser() {
 
                     <UserTableToolbar
                         filterName={filterName}
-                        filterRole={filterRole}
                         onFilterName={handleFilterName}
-                        onFilterRole={handleFilterRole}
-                        optionsRole={ROLE_OPTIONS}
                     />
 
                     <Scrollbar>
@@ -131,12 +125,10 @@ export default function ManageUser() {
                                     order={order}
                                     orderBy={orderBy}
                                     headLabel={TABLE_HEAD}
-                                    onSort={onSort}
-
                                 />
 
                                 <TableBody>
-                                    {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                                    {tableData.map((row) => (
                                         <UserTableRow
                                             key={row.id}
                                             row={row}
@@ -157,7 +149,7 @@ export default function ManageUser() {
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"
-                            count={dataFiltered.length}
+                            count={tableData.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={onChangePage}
@@ -170,26 +162,4 @@ export default function ManageUser() {
     );
 }
 
-// ----------------------------------------------------------------------
 
-function applySortFilter({ tableData, comparator, filterName, filterRole }) {
-    const stabilizedThis = tableData.map((el, index) => [el, index]);
-
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-
-    tableData = stabilizedThis.map((el) => el[0]);
-
-    if (filterName) {
-        tableData = tableData.filter((item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
-    }
-
-    if (filterRole !== 'all') {
-        tableData = tableData.filter((item) => item.role === filterRole);
-    }
-
-    return tableData;
-}

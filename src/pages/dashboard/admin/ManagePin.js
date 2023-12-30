@@ -39,7 +39,7 @@ import {
 // sections
 import PinTableRow from "../../../sections/@dashboard/pins/PinTableRow";
 import PinTableToolbar from "../../../sections/@dashboard/pins/PinToolBar";
-import {getAllPost} from "../../../api/posts";
+import {getAllPost, getPostByTitle} from "../../../api/posts";
 import {UserTableRow} from "../../../sections/@dashboard/user/list";
 
 
@@ -57,17 +57,12 @@ const TABLE_HEAD = [
 export default function ManagePin() {
     const {
         page,
-        order,
-        orderBy,
         rowsPerPage,
         setPage,
         //
-        onSort,
         onChangePage,
         onChangeRowsPerPage,
-    } = useTable({
-        defaultOrderBy: 'createdAt',
-    });
+    } = useTable();
 
     const { themeStretch } = useSettings();
 
@@ -78,18 +73,27 @@ export default function ManagePin() {
     const [filterName, setFilterName] = useState('');
 
     const fetchDataOnInit = () => {
-        getAllPost({
-            pageNumber: page + 1,
-            pageSize: rowsPerPage
-        }).then((res) => {
-            console.log(res.data)
-            setTableData(res.data)
-        })
+        if(!filterName) {
+            getAllPost({
+                pageNumber: page + 1,
+                pageSize: rowsPerPage
+            }).then((res) => {
+                setTableData(res.data)
+            })
+        } else {
+            getPostByTitle({
+                title: filterName
+            }).then((res) => {
+                setTableData(res.data)
+            })
+        }
+
+
     }
 
     useEffect(() => {
         fetchDataOnInit()
-    }, []);
+    }, [filterName]);
 
     const handleFilterName = (filterName) => {
         setFilterName(filterName);
@@ -105,13 +109,7 @@ export default function ManagePin() {
         navigate(PATH_DASHBOARD.eCommerce.edit(paramCase(id)));
     };
 
-    const dataFiltered = applySortFilter({
-        tableData,
-        comparator: getComparator(order, orderBy),
-        filterName,
-    });
-
-    const isNotFound = (!dataFiltered.length && !!filterName);
+    const isNotFound = !tableData.length && !!filterName
 
     return (
         <Page title="Manage Pics">
@@ -124,15 +122,12 @@ export default function ManagePin() {
 
                             <Table>
                                 <TableHeadCustom
-                                    order={order}
-                                    orderBy={orderBy}
                                     headLabel={TABLE_HEAD}
                                     rowCount={tableData.length}
-                                    onSort={onSort}
                                 />
 
                                 <TableBody>
-                                    {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                                    {tableData.map((row) => (
                                         <PinTableRow
                                             key={row.id}
                                             row={row}
@@ -153,7 +148,7 @@ export default function ManagePin() {
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"
-                            count={dataFiltered.length}
+                            count={tableData.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={onChangePage}
