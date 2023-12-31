@@ -136,7 +136,7 @@ function AuthProvider({ children }) {
   };
 
   const register = async ({userName, password,fullName, dateOfBirth, email}) => {
-    const response = await authRegister( {
+    await authRegister( {
       userName,
       password,
       fullName,

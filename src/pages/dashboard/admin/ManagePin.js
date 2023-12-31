@@ -1,47 +1,36 @@
 import { paramCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import {
     Box,
     Card,
     Table,
-    Button,
-    Switch,
-    Tooltip,
     TableBody,
     Container,
-    IconButton,
     TableContainer,
     TablePagination,
-    FormControlLabel,
 } from '@mui/material';
 // redux
 import {useSnackbar} from "notistack";
-import { useDispatch, useSelector } from '../../../redux/store';
-import { getProducts } from '../../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
 import useSettings from '../../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
+import useTable, { emptyRows } from '../../../hooks/useTable';
 // components
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 
 import {
     TableNoData,
-    TableSkeleton,
     TableEmptyRows,
     TableHeadCustom,
-    TableSelectedActions,
 } from '../../../components/table';
 // sections
 import PinTableRow from "../../../sections/@dashboard/pins/PinTableRow";
 import PinTableToolbar from "../../../sections/@dashboard/pins/PinToolBar";
 import {deletePost, getAllPost, getPostByTitle} from "../../../api/posts";
-import {UserTableRow} from "../../../sections/@dashboard/user/list";
 
 
 // ----------------------------------------------------------------------
@@ -167,24 +156,4 @@ export default function ManagePin() {
             </Container>
         </Page>
     );
-}
-
-// ----------------------------------------------------------------------
-
-function applySortFilter({ tableData, comparator, filterName }) {
-    const stabilizedThis = tableData.map((el, index) => [el, index]);
-
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-
-    tableData = stabilizedThis.map((el) => el[0]);
-
-    if (filterName) {
-        tableData = tableData.filter((item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
-    }
-
-    return tableData;
 }

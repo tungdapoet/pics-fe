@@ -6,11 +6,9 @@ import {
     Box,
     Card,
     Table,
-    Tooltip,
     Divider,
     TableBody,
     Container,
-    IconButton,
     TableContainer,
     TablePagination,
 } from '@mui/material';
@@ -18,7 +16,7 @@ import {
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
 import useSettings from '../../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../../hooks/useTable';
+import useTable, { emptyRows } from '../../../hooks/useTable';
 // components
 import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';

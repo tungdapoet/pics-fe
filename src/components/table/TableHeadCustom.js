@@ -1,29 +1,11 @@
 import PropTypes from 'prop-types';
 // @mui
-import { Box, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
-
-// ----------------------------------------------------------------------
-
-const visuallyHidden = {
-  border: 0,
-  margin: -1,
-  padding: 0,
-  width: '1px',
-  height: '1px',
-  overflow: 'hidden',
-  position: 'absolute',
-  whiteSpace: 'nowrap',
-  clip: 'rect(0 0 0 0)',
-};
+import { TableRow, TableCell, TableHead } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 TableHeadCustom.propTypes = {
-  onSort: PropTypes.func,
-  orderBy: PropTypes.string,
   headLabel: PropTypes.array,
-  rowCount: PropTypes.number,
-  order: PropTypes.oneOf(['asc', 'desc']),
   sx: PropTypes.object,
 };
 

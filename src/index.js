@@ -37,9 +37,6 @@ import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
 import { AuthProvider } from './contexts/JWTContext';
-// import { AuthProvider } from './contexts/Auth0Context';
-// import { AuthProvider } from './contexts/FirebaseContext';
-// import { AuthProvider } from './contexts/AwsCognitoContext';
 
 //
 import App from './App';
