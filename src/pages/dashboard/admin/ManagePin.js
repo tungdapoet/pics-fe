@@ -79,8 +79,6 @@ export default function ManagePin() {
                 setTableData(res.data)
             })
         }
-
-
     }
 
     useEffect(() => {

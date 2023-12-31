@@ -42,7 +42,6 @@ export default function PinDetail() {
     const [isOpenReportForm, setIsOpenReportForm] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [liked, setLiked] = useState(false);
-    const [numberOfLikes, setNumberOfLikes] = useState(pin?.numberOfLikes || 0);
 
 
     useEffect(async () => {
@@ -117,13 +116,6 @@ export default function PinDetail() {
 
     const handleClickLike = async () => {
         try {
-            if (!liked) {
-                setNumberOfLikes(numberOfLikes + 1);
-                // await likePost(pin.id, 'LIKE');
-            } else {
-                setNumberOfLikes(numberOfLikes - 1);
-                // await likePost(pin.id, 'UNLIKE');
-            }
             setLiked(!liked);
         } catch (error) {
             console.error('Error click like:', error);
@@ -237,11 +229,10 @@ export default function PinDetail() {
                                                 </Typography>
                                                 <Button
                                                     size="small"
-                                                    color={liked ? 'red' : 'inherit'}
                                                     startIcon={<Iconify icon='icon-park-solid:like'/>}
                                                     onClick={handleClickLike}
                                                 >
-                                                    {numberOfLikes}
+                                                    {liked ? pin?.numberOfLikes + 1 : pin?.numberOfLikes}
                                                 </Button>
 
                                             </div>
