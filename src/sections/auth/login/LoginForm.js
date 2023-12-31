@@ -28,8 +28,8 @@ export default function LoginForm() {
   });
 
   const defaultValues = {
-    username: 'qhhg',
-    password: 'qhhg123',
+    username: 'tungdd_admin',
+    password: '123456',
     remember: true,
   };
 

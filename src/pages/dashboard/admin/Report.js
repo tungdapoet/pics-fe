@@ -74,7 +74,7 @@ export default function Report() {
                                     {/* Example: */}
                                     {tableData.map((row, index) => (
                                         <TableRow key={index}>
-                                            <TableCell align="center">{row.userReportedName}</TableCell>
+                                            <TableCell align="center">{row.postId ? `Post with Id ${row.postId}` : row.userReportedName}</TableCell>
                                             <TableCell align="center">{row.userReportName}</TableCell>
                                             <TableCell align="center">{row.reason}</TableCell>
                                             <TableCell align="center">{formatDate(row.createAt)}</TableCell>
