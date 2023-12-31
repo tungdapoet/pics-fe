@@ -1,4 +1,4 @@
-import {del, get, post, put} from '../../helpers/api_helpers'
+import {del, get, post, put, putMultipart} from '../../helpers/api_helpers'
 
 export const getAllUser = (params) => get(`/user/GetAllUsers`, params)
 
@@ -12,7 +12,7 @@ export const lockAccount = (id) => get(`/user/LockAccount/${id}`)
 export const unlockAccount = (id) => get(`/user/UnLockAccount/${id}`)
 export const getUserById = (id) => get(`/user/GetUserById/${id}`)
 
-export const updateUser = (body) => put(`/user/UpdateUser`, body)
+export const updateUser = (body) => putMultipart(`/user/UpdateUser`, body)
 
 export const deleteUser = (id) => put(`/user/DeleteUser/${id}`)
 

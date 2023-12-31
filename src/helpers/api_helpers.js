@@ -62,6 +62,19 @@ export async function postMultipart(
     }).then(response => response.data)
 }
 
+export async function putMultipart(
+    url,
+    data,
+    config = {}
+) {
+    return axiosApi.put(url, data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            ...config
+        },
+    }).then(response => response.data)
+}
+
 export async function put(url, data, config = {}) {
     return axiosApi
         .put(url, {...data}, {...config})

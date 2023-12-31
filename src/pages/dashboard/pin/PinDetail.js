@@ -27,6 +27,7 @@ import {DialogAnimate} from "../../../components/animate";
 import {createComment, getPostById, sharePost} from "../../../api/posts";
 import {PATH_DASHBOARD} from "../../../routes/paths";
 import {handleFollow} from "../../../api/follow";
+import Scrollbar from "../../../components/Scrollbar";
 
 
 export default function PinDetail() {
@@ -224,8 +225,9 @@ export default function PinDetail() {
                                             <Typography sx={{mt: 5}} variant="h6">
                                                 Comments
                                             </Typography>
-
-                                            <PinCommentList items={pin.dataResponseComments}/>
+                                            <Scrollbar>
+                                                <PinCommentList items={pin.dataResponseComments}/>
+                                            </Scrollbar>
                                         </div>
 
                                         <div>

@@ -31,10 +31,11 @@ export default function Home() {
         fullName: Yup.string().required('Full name is required'),
         userName: Yup.string().required('User name is required'),
         email: Yup.string().required('email is required'),
+        avatar: Yup.mixed().optional()
     });
 
     const profileDefaultValues = {
-        avatarUrl: user?.avatarUrl || '',
+        avatar: user?.avatarUrl || null,
         fullName: user?.fullName || '',
         userName: user?.userName || '',
         email: user?.email || '',
@@ -57,11 +58,10 @@ export default function Home() {
         const form = getProfileValue();
         console.log(form)
         const profileFormData = new FormData();
-        profileFormData.append('avatarUrl',form.avatarUrl);
+        profileFormData.append('avatar',form.avatar);
         profileFormData.append('fullName', form.fullName);
         profileFormData.append('email', form.email);
-        profileFormData.append('userName', form.userName);
-        console.log(profileFormData)
+        console.log(profileFormData.values())
         updateUser(profileFormData).then(() => {
             enqueueSnackbar('Update user info success!');
             navigate(PATH_DASHBOARD.root, {replace: true})
@@ -107,14 +107,14 @@ export default function Home() {
     const handleDrop = useCallback(
         (acceptedFiles) => {
             const file = acceptedFiles[0];
-
             if (file) {
                 setProfileValue(
-                    'avatarUrl',
+                    'avatar',
                     Object.assign(file, {
                         preview: URL.createObjectURL(file),
                     })
                 );
+                const form = getProfileValue();
             }
         },
         [setProfileValue]
@@ -127,7 +127,7 @@ export default function Home() {
                     <Grid item xs={12} md={4}>
                         <Card sx={{py: 10, px: 3, textAlign: 'center'}}>
                             <RHFUploadAvatar
-                                name="avatarUrl"
+                                name="avatar"
                                 accept="image/*"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
@@ -168,12 +168,12 @@ export default function Home() {
 
                                 <div>
                                     <Typography sx={{fontSize: 'default', m: 1}}>User name</Typography>
-                                    <RHFTextField name="userName" label="User name"/>
+                                    <RHFTextField disabled name="userName" label="User name"/>
                                 </div>
 
                                 <div>
                                     <Typography sx={{fontSize: 'default', m: 1}}>Email</Typography>
-                                    <RHFTextField disabled name="email" label="Email"/>
+                                    <RHFTextField name="email" label="Email"/>
                                 </div>
                             </Box>
 

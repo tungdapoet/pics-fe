@@ -1,7 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/Label';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
@@ -48,7 +47,7 @@ const navConfig = [
         path: PATH_DASHBOARD.general.profile.detail,
         icon: ICONS.user,
         children: [
-          { title: 'details', path: PATH_DASHBOARD.general.profile.detail, icon: ICONS.dashboard },
+          { title: 'detail', path: PATH_DASHBOARD.general.profile.detail, icon: ICONS.dashboard },
           { title: 'edit', path: PATH_DASHBOARD.general.profile.edit, icon: ICONS.ecommerce },
         ]
       },
